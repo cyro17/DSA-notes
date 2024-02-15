@@ -1,0 +1,1 @@
+{"name":"Local: balanced_brackets","url":"c:\\Users\\HP\\.vscode\\DSA\\Luv_STL\\balanced_brackets.cpp","tests":[{"id":1672939645582,"input":"3\n{[()]}\n{[(])}\n{{[[(())]]}}","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\HP\\.vscode\\DSA\\Luv_STL\\balanced_brackets.cpp","group":"local","local":true}

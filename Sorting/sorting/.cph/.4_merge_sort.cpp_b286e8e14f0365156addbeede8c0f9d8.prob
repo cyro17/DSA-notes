@@ -1,0 +1,1 @@
+{"name":"Local: 4_merge_sort","url":"c:\\Users\\HP\\.vscode\\cpp\\c++ and dsa\\sorting\\4_merge_sort.cpp","tests":[{"id":1658453334621,"input":"5\n4 1 3 9 7","output":"1 2 4 7 9"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\HP\\.vscode\\cpp\\c++ and dsa\\sorting\\4_merge_sort.cpp","group":"local","local":true}
