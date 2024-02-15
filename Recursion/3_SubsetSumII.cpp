@@ -2,7 +2,12 @@
 
 // Brute Force
 
-/* 
+/*
+Approach:
+**At every index, we make a decision whether to pick or not pick the element at that index. 
+This will help us in generating all possible combinations but does not take care of the duplicates.
+Hence we will use a set to store all the combinations that will discard the duplicates**.
+
 Time Complexity: O( 2^n *(k log (x) )). 2^n  for generating every subset and k* log( x)  
    to insert every combination of average length k in a set of size x.
    After this, we have to convert the set of combinations back into a list of list /vector of vectors 
@@ -40,6 +45,10 @@ public:
 
 // Optimal Solution 
 /* 
+Approach : In the previous method, we were taking extra time to store the unique combination with the help of a set.  
+To make the solution efficient we will have to decide on a method that will consider only the unique combinations 
+without the help of additional data structure.
+
 Time Complexity: O(2^n) for generating every subset and O(k)  to insert every subset in another data structure
 if the average length of every subset is k. Overall O(k * 2^n).
 
