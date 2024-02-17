@@ -7,8 +7,8 @@ M-2 => using Backtracking
 
    T.C => (N! * N ) 
    S.C => O(1)
-      Here we are saving space on space com as we are not using any DS or map to store any res
-         
+      Here we are saving space  as we are not using any DS or map to store any res
+
  */
 
 class Solution
