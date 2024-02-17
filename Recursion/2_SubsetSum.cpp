@@ -1,4 +1,5 @@
-// Leetcode 78  Subset sum 
+// Subset sum
+// https://www.geeksforgeeks.org/problems/subset-sums2234/1 
 /* 
 Given a list arr of N integers, return sums of all subsets in it.
 Input:
