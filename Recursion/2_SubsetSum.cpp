@@ -1,5 +1,12 @@
 // Leetcode 78  Subset sum 
 /* 
+Given a list arr of N integers, return sums of all subsets in it.
+Input:
+	N = 2
+	arr[] = {2, 3}
+Output:
+		0 2 3 5
+
 Brute Force => Using Power set 
 	t .c  => 2^n * N
 

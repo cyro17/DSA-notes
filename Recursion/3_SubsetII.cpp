@@ -3,6 +3,17 @@
 // Brute Force
 
 /*
+
+Given an integer array nums that may contain duplicates, return all possible 
+subsets
+ (the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+Input: nums = [1,2,2]
+Output: [[],[1],[1,2],[1,2,2],[2],[2,2]]
+
+
 Approach:
 **At every index, we make a decision whether to pick or not pick the element at that index. 
 This will help us in generating all possible combinations but does not take care of the duplicates.
@@ -23,12 +34,12 @@ public:
             sort(ds.begin(), ds.end());
             set.insert(ds);
             return;
-	}
+	    }
         ds.push_back(arr[i]);
         util(i+1, ds, arr, set, res); 
         ds.pop_back();   // backtrack
         util(i+1, ds, arr, set, res); 
-        }
+    }
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
         vector<vector<int>> res;
         vector<int> ds;

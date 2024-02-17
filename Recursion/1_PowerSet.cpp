@@ -1,26 +1,26 @@
-#include <bits/stdc++.h>
-using namespace std;
+/*   leetcode 78  https://leetcode.com/problems/subsets/
+*/
 
-int main(){
-   vector<int> nums = [1,2,3];
-   int n = nums.size();
+class Solution {
+public:
+    // power set 
+    vector<vector<int>> subsets(vector<int>& nums) {
+    	int n = nums.size();
+    	vector<vector<int>> res; 
+        for (int i = 0; i < (1<<n); ++i){
 
-   vector<vector<int>> res;
+        	vector<int> ds; 
+        	for (int j = 0; j < n ; ++j){
 
-   for(int num = 0; num<(1<<n); num++){
-      vector<int> sub;
-      for(int i = 0; i<n; i++){
-         if(num & (1<<i)){
-            sub.push_back(nums[i]);
-         }
-      }
-      if(sub.size()>=0){
-         res.push_back(sub);
-      }
-   }
-
-   int n = res.size();
-   for(auto it : res){  
-      
-   }
-}
+                // check if bit is set, if yes then put into ds
+                if(i & (1<<j))
+                    ds.push_back(nums[j]);
+        		
+        	}
+        	if(ds.size()>=0)	
+        		res.push_back(ds);
+        }
+        sort(res.begin(), res.end());
+        return res;
+    }
+};
