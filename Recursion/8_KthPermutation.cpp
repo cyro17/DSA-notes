@@ -1,3 +1,21 @@
+/* 
+Brute Force:
+      1. using recursion we can generate all the permutations
+      2. store the perm into a ds.
+      3. sort the ds
+   
+   T.C => O(N! * N)
+   S.C => O(N)
+
+
+Optimized approach : 
+   T.C => O(N^2);
+   S.C => O(N)
+
+following are the solution of optimized approach !!
+ */
+
+
 class Solution {
 public:
     string getPermutation(int n, int k) {
@@ -14,7 +32,7 @@ public:
         while(true){
             res = res+ to_string(nums[k/fact]);
             nums.erase(nums.begin() + k/fact);
-            
+
             if(nums.size() == 0){
                 break;
             }
