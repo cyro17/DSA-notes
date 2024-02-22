@@ -7,14 +7,14 @@ Let’s build the intuition for this approach using a modified version of the gi
 Assume two sorted arrays are given i.e. a1[] = {2, 3, 5, 6} and a2[] = {2, 2, 4, 4, 8}.
 Now, we have to count the pairs i.e. a1[i] and a2[j] such that a1[i] > a2[j].
 
-In order to solve this, we will keep two pointers i and j, where i will point to the first index
-of a1[] and j will point to the first index of a2[]. Now in each iteration, we will do the following:
+In order to solve this, we will keep two pointers i and j, where i will point to the first index of a1[] and j will point to the first index of a2[].
+Now in each iteration, we will do the following:
 
-If a1[i] <= a2[j]: These two elements cannot be a pair and so we will move the pointer i to the next
-position. This case is illustrated below:
+   If a1[i] <= a2[j]: These two elements cannot be a pair and so we will move the pointer i to the next position.
+   This case is illustrated below:
 
-Why we moved the i pointer: We know, that the given arrays are sorted. So, all the elements after the
-pointer j, should be greater than a2[j]. Now, as a1[i] is smaller or equal to a2[j], it is obvious that
+Why we moved the i pointer:
+We know, that the given arrays are sorted. So, all the elements after the pointer j, should be greater than a2[j]. Now, as a1[i] is smaller or equal to a2[j], it is obvious that
 a1[i] will be smaller or equal to all the elements after a2[j]. We need a bigger value of a1[i] to make
 a pair and so we move the i pointer to the next position i.e. next bigger value.
 If a1[i] > a2[j]: These two elements can be a pair and so we will update the count of pairs. Now, here,
