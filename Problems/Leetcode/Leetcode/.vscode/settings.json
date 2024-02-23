@@ -1,0 +1,9 @@
+{
+  "git.ignoreLimitWarning": true,
+  "files.associations": {
+    "*.ejs": "html",
+    "set": "cpp",
+    "cstdlib": "cpp",
+    "vector": "cpp"
+  }
+}

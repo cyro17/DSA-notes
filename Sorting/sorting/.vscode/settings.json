@@ -1,0 +1,12 @@
+{
+  "files.associations": {
+    "*.ejs": "html",
+    "*html": "html",
+    "javascript": "javascriptreact",
+    "plaintext": "pug",
+    "*.py": "python",
+    "iostream": "cpp",
+    "xstring": "cpp",
+    "ostream": "cpp"
+  }
+}

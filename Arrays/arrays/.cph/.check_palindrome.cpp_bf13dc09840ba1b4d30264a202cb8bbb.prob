@@ -1,1 +1,0 @@
-{"name":"Local: check_palindrome","url":"c:\\Users\\HP\\.vscode\\cpp\\c++ and dsa\\arrays\\check_palindrome.cpp","tests":[{"id":1658386350081,"input":"5\nnitun","output":"palindrome"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\HP\\.vscode\\cpp\\c++ and dsa\\arrays\\check_palindrome.cpp","group":"local","local":true}
