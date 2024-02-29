@@ -6,6 +6,12 @@ doc:
    https://takeuforward.org/data-structure/set-matrix-zero/
    */
 
+/*
+      T.C =>  N^2
+      SC =>  N + M
+
+      in optimal approach we will try to optimize the space comp
+ */
 class Solution
 {
 public:
