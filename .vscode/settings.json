@@ -1,3 +1,16 @@
 {
-  "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "files.associations": {
+    "*.ejs": "html",
+    "array": "cpp",
+    "deque": "cpp",
+    "format": "cpp",
+    "initializer_list": "cpp",
+    "ranges": "cpp",
+    "span": "cpp",
+    "vector": "cpp",
+    "xstring": "cpp",
+    "xtree": "cpp",
+    "xutility": "cpp"
+  }
 }
