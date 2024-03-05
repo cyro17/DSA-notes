@@ -1,7 +1,14 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/* Brute Force:  */
+/* Brute Force:
+
+Time Complexity: O(n+m) + O(n+m), where n and m are the sizes of the given arrays.
+Reason: O(n+m) is for copying the elements from arr1[] and arr2[] to arr3[]. And another O(n+m) is for filling back the two given arrays from arr3[].
+
+Space Complexity: O(n+m) as we use an extra array of size n+m.
+
+*/
 
 class Solution
 {
