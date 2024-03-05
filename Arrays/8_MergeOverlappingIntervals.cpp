@@ -37,9 +37,11 @@ public:
          int cur_start = arr[i][0];
          int cur_end = arr[i][1];
 
+         // skipping all the merged intervals
          if (!res.empty() && cur_end <= res.back()[1])
             continue;
 
+         // check the rest of the intervals
          for (int j = i + 1; j < n; ++j)
          {
             if (arr[j][0] <= cur_end)
