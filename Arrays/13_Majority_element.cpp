@@ -38,7 +38,8 @@ class Solution
 /*
 Optimizeed approach: using Moore's voting Algorithm
 
-   TC =
+   TC = N + N  ; only two loops used one in algo and another in check function
+   SC = 1
 */
 
 class Solution
