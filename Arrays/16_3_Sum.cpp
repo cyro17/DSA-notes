@@ -48,77 +48,82 @@ set takes O(log(no. of unique triplets)) time complexity. But we are not conside
 Space Complexity: O(2 * no. of the unique triplets) + O(N) as we are using a set data structure
  and a list to store the triplets and extra O(N) for storing the array elements in another set.
 */
-
-vector<vector<int>> triplet(int n, vector<int> &arr)
+class Solution
 {
-   set<vector<int>> st;
-
-   for (int i = 0; i < n; i++)
+   vector<vector<int>> triplet(int n, vector<int> &arr)
    {
-      set<int> hashset;
-      for (int j = i + 1; j < n; j++)
+      set<vector<int>> st;
+
+      for (int i = 0; i < n; i++)
       {
-         // Calculate the 3rd element:
-         int third = -(arr[i] + arr[j]);
-
-         // Find the element in the set:
-         if (hashset.find(third) != hashset.end())
+         set<int> hashset;
+         for (int j = i + 1; j < n; j++)
          {
-            vector<int> temp = {arr[i], arr[j], third};
-            sort(temp.begin(), temp.end());
-            st.insert(temp);
+            // Calculate the 3rd element:
+            int third = -(arr[i] + arr[j]);
+
+            // Find the element in the set:
+            if (hashset.find(third) != hashset.end())
+            {
+               vector<int> temp = {arr[i], arr[j], third};
+               sort(temp.begin(), temp.end());
+               st.insert(temp);
+            }
+            hashset.insert(arr[j]);
          }
-         hashset.insert(arr[j]);
       }
+
+      // store the set in the answer:
+      vector<vector<int>> ans(st.begin(), st.end());
+      return ans;
    }
-
-   // store the set in the answer:
-   vector<vector<int>> ans(st.begin(), st.end());
-   return ans;
-}
-
+};
 /* Optimal Approach: Using 3 pointers
 
    TC => O(NlogN)+O(N2), where N = size of the array.
    SC =>  O(no. of quadruplets),
  */
-vector<vector<int>> triplet(int n, vector<int> &arr)
-{
-   vector<vector<int>> ans;
-   sort(arr.begin(), arr.end());
-   for (int i = 0; i < n; i++)
-   {
-      // remove duplicates:
-      if (i != 0 && arr[i] == arr[i - 1])
-         continue;
 
-      // moving 2 pointers:
-      int j = i + 1;
-      int k = n - 1;
-      while (j < k)
+class Solution
+{
+   vector<vector<int>> triplet(int n, vector<int> &arr)
+   {
+      vector<vector<int>> ans;
+      sort(arr.begin(), arr.end());
+      for (int i = 0; i < n; i++)
       {
-         int sum = arr[i] + arr[j] + arr[k];
-         if (sum < 0)
+         // remove duplicates:
+         if (i != 0 && arr[i] == arr[i - 1])
+            continue;
+
+         // moving 2 pointers:
+         int j = i + 1;
+         int k = n - 1;
+         while (j < k)
          {
-            j++;
-         }
-         else if (sum > 0)
-         {
-            k--;
-         }
-         else
-         {
-            vector<int> temp = {arr[i], arr[j], arr[k]};
-            ans.push_back(temp);
-            j++;
-            k--;
-            // skip the duplicates:
-            while (j < k && arr[j] == arr[j - 1])
+            int sum = arr[i] + arr[j] + arr[k];
+            if (sum < 0)
+            {
                j++;
-            while (j < k && arr[k] == arr[k + 1])
+            }
+            else if (sum > 0)
+            {
                k--;
+            }
+            else
+            {
+               vector<int> temp = {arr[i], arr[j], arr[k]};
+               ans.push_back(temp);
+               j++;
+               k--;
+               // skip the duplicates:
+               while (j < k && arr[j] == arr[j - 1])
+                  j++;
+               while (j < k && arr[k] == arr[k + 1])
+                  k--;
+            }
          }
       }
+      return ans;
    }
-   return ans;
-}
+};
