@@ -1,4 +1,5 @@
-
+#include <bits/stdc++.h>
+using namespace std;
 
 /* Brute Force:
    Using two nested loops i and j and check for every comb
