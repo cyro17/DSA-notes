@@ -13,9 +13,7 @@ private:
         days++;
       }
       else
-      {
         load += weights[i];
-      }
     }
     return days;
   }
