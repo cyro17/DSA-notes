@@ -15,6 +15,9 @@
 
   Optimized Approach:
     1. we can use binary search on our search space [ min...max ] eliminate the half search space;
+
+          TC = O( log(max - min )* N)
+          SC = O(1)
 */
 
 class Solution

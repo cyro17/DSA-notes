@@ -1,5 +1,8 @@
 /* Brute Force:
+      The extremely naive approach is to check all possible divisors from 1 to max(arr[]).
+      The minimum number for which the result <= threshold value, will be our answer.
 
+  Algo:
     1. We will run a loop(say d) from 1 to max(arr[]) to check all possible divisors.
     2. To calculate the result, we will iterate over the given array using a loop. Within this loop,
        we will divide each element in the array by the current divisor, d, and sum up the obtained ceiling
@@ -7,7 +10,17 @@
     3. Inside the outer loop, If result <= threshold: We will return d as our answer.
     4. Finally, if we are outside the nested loops, we will return -1.
 
- */
+
+            TC = O(N^2)
+            SC = O(1)
+
+  Optimized Approach :
+       use Binary Search on search space to eliminate the undesirable range.
+
+            TC = O(log(max - min + 1)* N)
+            SC = O(1)
+
+*/
 
 class Solution
 {
