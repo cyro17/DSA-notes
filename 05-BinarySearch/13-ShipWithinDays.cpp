@@ -27,11 +27,19 @@ public:
     int max_ = *max_element(weights.begin(), weights.end());
     int sum = accumulate(weights.begin(), weights.end(), 0);
 
-    // for(int i = max_ ; i<= sum; i++){
-    //     if(findDays(weights, i) <= days)
-    //         return i;
-    // }
-    // return -1;
+    for (int i = max_; i <= sum; i++)
+    {
+      if (findDays(weights, i) <= days)
+        return i;
+    }
+    return -1;
+  }
+
+  int shipWithinDays_opt(vector<int> &weights, int days)
+  {
+    int n = weights.size();
+    int max_ = *max_element(weights.begin(), weights.end());
+    int sum = accumulate(weights.begin(), weights.end(), 0);
 
     int low = max_, high = sum;
     while (low <= high)
