@@ -142,26 +142,3 @@ Node *reverseLinkedList_opt1(Node *head)
   // the reversed linked list
   return prev;
 }
-
-int main()
-{
-  // Create a linked list with
-  // values 1, 3, 2, and 4
-  Node *head = new Node(1);
-  head->next = new Node(3);
-  head->next->next = new Node(2);
-  head->next->next->next = new Node(4);
-
-  // Print the original linked list
-  cout << "Original Linked List: ";
-  printLinkedList(head);
-
-  // Reverse the linked list
-  head = reverseLinkedList(head);
-
-  // Print the reversed linked list
-  cout << "Reversed Linked List: ";
-  printLinkedList(head);
-
-  return 0;
-}
