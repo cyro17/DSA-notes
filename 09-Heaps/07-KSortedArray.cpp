@@ -63,7 +63,7 @@ vector<int> solve(vector << int >> arr, int k){
     int j = tmp->j;
 
     if(j+1 < arr[i].size()){
-      Node* nxt = new Node(arr[i][j], i, j+1);
+      Node* nxt = new Node(arr[i][j+1], i, j+1);
       min_heap.push(nxt);
     }
   }
