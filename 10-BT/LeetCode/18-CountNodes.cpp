@@ -9,6 +9,7 @@ public:
       return 0;
     queue<TreeNode *> q;
     q.push(root);
+    _HAS_CHAR16_T_LANGUAGE_SUPPORT
     int cnt = 0;
     while (!q.empty())
     {
