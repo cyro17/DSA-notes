@@ -23,6 +23,11 @@ private:
     {
       TreeNode *curr = q.front();
       q.pop();
+
+      /*
+      here in this function we can return the target node also
+      if(curr->val == target) res = curr; and get the res as target node
+       */
       if (curr->left)
       {
         parents_map[curr->left] = curr;
