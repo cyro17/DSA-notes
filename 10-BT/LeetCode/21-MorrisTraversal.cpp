@@ -1,5 +1,16 @@
 class morrisTraversal
 {
+private:
+  TreeNode *findPredecessor(TreeNode *node)
+  {
+    TreeNode *prev = node->left;
+    while (prev->right && prev->right != node)
+    {
+      prev = prev->right;
+    }
+    return prev;
+  }
+
 public:
   vector<int> inOrder(Node *root)
   {
