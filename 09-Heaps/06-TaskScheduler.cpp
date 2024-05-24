@@ -16,7 +16,7 @@ using namespace std;
               2. since its getting marked, decrease its value and push
                  it back to a temp array
 
-      4. loop over temp array and push its value back to heap
+      4. loop over temp array and push its value back to heap if the value if > 0
       5. if pq is empty
           time = time + tmp.size()
          else
