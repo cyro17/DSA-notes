@@ -75,6 +75,9 @@ public:
     - curr is the max value of pick and non pick
 
     update prev2 as prev , prev as curr
+
+    TC = O(N)
+    SC = O(1)
  */
 class Solution
 {
