@@ -66,3 +66,36 @@ public:
     return util(n - 1, nums, dp);
   }
 };
+
+/* space optimization
+
+ using three pointers : prev2, prev and curr
+    - prev2 holds max sum of adj element until index - 2
+    - prev holds max sum of adj element until index - 1
+    - curr is the max value of pick and non pick
+
+    update prev2 as prev , prev as curr
+ */
+class Solution
+{
+public:
+  // space optimization approach : SC = O(1)
+  int rob(vector<int> &arr)
+  {
+    int n = arr.size();
+    int prev2 = 0, prev = arr[0];
+    for (int i = 1; i < n; i++)
+    {
+      int pick = arr[i];
+      if (i > 1)
+        pick += prev2;
+      int non_pick = 0 + prev;
+
+      int curr = max(pick, non_pick);
+
+      prev2 = prev;
+      prev = curr;
+    }
+    return prev;
+  }
+};
