@@ -102,3 +102,50 @@ public:
     return prev;
   }
 };
+
+/* follow up question : array is circular */
+
+class Solution
+{
+private:
+  int util(vector<int> &arr)
+  {
+    int n = arr.size();
+    int prev = arr[0];
+    int p2 = 0;
+
+    for (int i = 1; i < n; ++i)
+    {
+      int pick = arr[i];
+      if (i > 1)
+        pick += p2;
+
+      int non_pick = 0 + prev;
+      int curr = max(pick, non_pick);
+
+      p2 = prev;
+      prev = curr;
+    }
+    return prev;
+  }
+
+public:
+  int robStreet(vector<int> &arr)
+  {
+    int n = arr.size();
+    vector<int> arr1, arr2;
+    if (n == 1)
+      return arr[0];
+    for (int i = 0; i < n; ++i)
+    {
+      if (i != 0)
+        arr1.push_back(arr[i]);
+      if (i != n - 1)
+        arr1.push_back(arr[i]);
+    }
+
+    int ans1 = solve2(arr1);
+    int ans2 = solve2(arr2);
+    return max(ans1, ans2);
+  }
+};
