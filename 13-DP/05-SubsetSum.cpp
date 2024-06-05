@@ -71,3 +71,39 @@ public:
     return util(n - 1, sum, arr, dp);
   }
 };
+
+/* Memoization of overlapping subproblems
+Time Complexity: O(N*K)
+
+Reason: There are N*K states therefore at max ‘N*K’ new problems will be solved.
+
+Space Complexity: O(N*K)
+
+Reason: no extra rec stack space
+
+*/
+
+class Solution
+{
+  bool solve(vector<int> &arr, int target)
+  {
+    int k = target;
+    vector<vector<bool>> dp(n, vector<bool>(k + 1, 0));
+    for (int i = 0; i < n; i++)
+      dp[i][0] = 1;
+
+    dp[0][arr[0]] = 1;
+    for (int idx = 1; idx < n; idx++)
+    {
+      for (int j = 1; j <= target; j++)
+      {
+        bool dont_pick = dp[idx - 1][j];
+        bool pick = 0;
+        if (arr[idx] <= j)
+          pick = dp[idx - 1][j - arr[idx]];
+        dp[idx][j] = pick or dont_pick;
+      }
+    }
+    return dp[n - 1][k];
+  }
+};
