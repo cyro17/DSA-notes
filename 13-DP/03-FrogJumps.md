@@ -1,4 +1,6 @@
-/* Recursive Approach */
+Recursive Approach
+
+```
 
 class FrogJumps
 {
@@ -20,8 +22,11 @@ public:
     return rec(n - 1, height);
   }
 };
+```
 
-/* DP Memoization */
+DP Memoization
+
+```
 class Solution
 {
 public:
@@ -44,8 +49,11 @@ public:
     return rec(n - 1, h, dp);
   }
 };
+```
 
-/* DP Tabulation */
+DP Tabulation
+
+```
 class Solution
 {
 public:
@@ -64,3 +72,4 @@ public:
     return dp[n - 1];
   }
 };
+```

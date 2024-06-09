@@ -1,5 +1,4 @@
-
-
+```
 class Solution
 {
 private:
@@ -18,7 +17,11 @@ public:
   }
 };
 
-/* DP memoization  */
+```
+
+DP memoization
+
+```
 class Solution
 {
 private:
@@ -39,8 +42,11 @@ public:
   }
 };
 
-//  Tabulation
+```
 
+Tabulation
+
+```
 class Solution
 {
 public:
@@ -57,3 +63,4 @@ public:
     return dp[n];
   }
 };
+```

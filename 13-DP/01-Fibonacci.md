@@ -1,20 +1,21 @@
-/* Recursive approach:
-    TC = exp , since every func calls 2 other func
-    SC = O(N)
-*/
+Recursive approach
+TC = exp , since every func calls 2 other func
+SC = O(N)
 
+```
 int Fibonacci(int n)
 {
   if (n <= 1)
     return 1;
   return Fibonacci(n - 1) + Fibonacci(n - 2);
 }
+```
 
-/* DP => Memoizing
-    TC = O(N)
-    SC = O(2N) since we are creating an array of n size and rec stack space takes o(n) space
- */
+DP => Memoizing
+TC = O(N)
+SC = O(2N) since we are creating an array of n size and rec stack space takes o(n) space
 
+```
 class Solution
 {
 private:
@@ -35,11 +36,13 @@ public:
   }
 };
 
-/* DP => Tabulation
-    TC = O(N)
-    SC = O(N) , we dont use the rec stack space here in tabulation
+```
 
-*/
+DP => Tabulation
+TC = O(N)
+SC = O(N) , we dont use the rec stack space here in tabulation
+
+```
 
 class Solution
 {
@@ -58,10 +61,13 @@ public:
   }
 };
 
-/* Space Optimization
-    TC = O(N)
-    SC = O(1)
- */
+```
+
+Space Optimization
+TC = O(N)
+SC = O(1)
+
+```
 class Solution
 {
 public:
@@ -77,3 +83,4 @@ public:
     return prev;
   }
 }
+```
