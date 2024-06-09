@@ -1,17 +1,16 @@
-/*
 PS -> Partition array into two subset with equal sum
 1 5 11 5 => (5 5 1) (11)
 
 Two subset with equal sum , that means each subset sum is equal to the half of the total array sum
 similar to subset sum problem we sovled above , just the target changes to half of the total sum
- */
 
-/* Recursive approach : */
+Recursive approach :
+
+```
 class Solution
 {
 private:
-  bool util(int idx, int target, vector<int> &arr)
-  {
+  bool util(int idx, int target, vector<int> &arr){
     if (target == 0)
       return 1;
     if (idx == 0)
@@ -26,8 +25,7 @@ private:
   }
 
 public:
-  bool isSubsetSum(vector<int> arr, int sum)
-  {
+  bool isSubsetSum(vector<int> arr, int sum){
     int n = arr.size(), total = 0;
     for (int i : arr)
       total += i;
@@ -40,17 +38,18 @@ public:
   }
 };
 
-/* Memoization Approach */
-class Solution
-{
+
+Memoization Approach
+
+
+
+class Solution{
 private:
-  bool util(int index, int target, vector<int> &arr, vector<vector<int>> &dp)
-  {
+  bool util(int index, int target, vector<int> &arr, vector<vector<int>> &dp){
     if (target == 0)
       return 1;
     if (index == 0)
       return arr[0] == target;
-
     if (dp[index][target] != -1)
       return dp[index][target];
 
@@ -60,11 +59,9 @@ private:
       pick = util(index - 1, target - arr[index], arr, dp);
 
     return dp[index][target] = pick or not_pick;
-  }
-
+}
 public:
-  bool canPartition(vector<int> &arr)
-  {
+  bool canPartition(vector<int> &arr){
     int total = 0, n = arr.size();
     for (int i : arr)
       total += i;
@@ -76,13 +73,17 @@ public:
   }
 };
 
-/* Tabulation Approach */
+```
+
+Tabulation Approach
+
+```
 class Solution
 {
 private:
-  bool findSum(int index, int target, vector<int> &arr)
-  {
-    int n = arr.size();
+bool findSum(int index, int target, vector<int> &arr)
+{
+int n = arr.size();
 
     for (int i = 0; i < n; i++)
       dp[i][0] = 1;
@@ -101,16 +102,14 @@ private:
       }
     }
     return dp[n - 1][target];
-  }
+
+}
 
 public:
-  bool canPartition(vector<int> &nums)
-  {
+  bool canPartition(vector<int> &nums){
     int sum = 0;
     for (int i : nums)
-    {
       sum += i;
-    }
     if (sum & 1)
       return 0;
 
@@ -120,3 +119,5 @@ public:
     return findSum(n - 1, target, nums);
   }
 };
+
+```
