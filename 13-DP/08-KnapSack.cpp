@@ -1,3 +1,10 @@
+/* Recursive Approach:
+
+
+ TC = O (2^N)
+ SC = O (N)
+ */
+
 class Knapsack
 {
 private:
@@ -26,7 +33,17 @@ public:
   }
 };
 
-/*Memoization*/
+/*Memoization
+
+Complexity Analysis
+
+Time Complexity: O(N*W)
+
+Reason: There are N*W states therefore at max ‘N*W’ new problems will be solved.
+
+Space Complexity: O(N*W) + O(N)
+
+Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N*W)).*/
 
 class Solution
 {
@@ -61,7 +78,17 @@ public:
   }
 };
 
-/* Tabulation: */
+/* Tabulation:
+
+Time Complexity: O(N*W)
+
+Reason: There are two nested loops
+
+Space Complexity: O(N*W)
+
+Reason: We are using an external array of size ‘N*W’. Stack Space is eliminated.
+*/
+
 int knapSack(int W, int wt[], int val[], int n)
 {
 
