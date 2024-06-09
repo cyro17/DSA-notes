@@ -39,6 +39,9 @@ int canPartition(int n, vector<int> &arr)
   {
     bool dummy = util(n - 1, j, arr, dp);
   }
+  // edge case
+  if (total - target < 0 || (total - target) & 1)
+    return 0;
 
   int min_ = INT_MAX;
   for (int j = 0; j <= total / 2; j++)

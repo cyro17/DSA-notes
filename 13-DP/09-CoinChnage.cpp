@@ -10,7 +10,7 @@ private:
       {
         return target / arr[0];
       }
-      return INT_MAX - 1;
+      return INT_MAX;
     }
     if (dp[index][target] != -1)
       return dp[index][target];
