@@ -43,7 +43,9 @@ Reason: There are N*W states therefore at max ‘N*W’ new problems will be sol
 
 Space Complexity: O(N*W) + O(N)
 
-Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N*W)).*/
+Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N*W)).
+
+*/
 
 class Solution
 {
