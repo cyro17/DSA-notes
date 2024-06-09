@@ -48,9 +48,9 @@ private:
   bool util(int idx, int target, vector<int> &arr, vector<vector<int>> &dp)
   {
     if (target == 0)
-      return 1;
+      return dp[idx][target] = 1;
     if (idx == 0)
-      return (arr[idx] == target);
+      return dp[idx][target] = (arr[idx] == target);
 
     if (dp[idx][target] != -1)
       return dp[idx][target];
