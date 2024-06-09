@@ -1,6 +1,6 @@
 Recursive Approach:
 
-TC = O (2^N)
+TC = O (2^N) <br/>
 SC = O (N)
 
 ```
