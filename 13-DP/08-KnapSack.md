@@ -37,13 +37,13 @@ Memoization
 
 Complexity Analysis
 
-Time Complexity: O(N\*W)
+Time Complexity: O(NxW)
 
-Reason: There are N*W states therefore at max ‘N*W’ new problems will be solved.
+Reason: There are NxW states therefore at max NxW new problems will be solved.
 
-Space Complexity: O(N\*W) + O(N)
+Space Complexity: O(NxW) + O(N)
 
-Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N\*W)).
+Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(NxW)).
 
 ```
 class Solution
@@ -83,13 +83,13 @@ public:
 
 Tabulation:
 
-Time Complexity: O(N\*W)
+Time Complexity: O(NxW)
 
 Reason: There are two nested loops
 
-Space Complexity: O(N\*W)
+Space Complexity: O(NxW)
 
-Reason: We are using an external array of size ‘N\*W’. Stack Space is eliminated.
+Reason: We are using an external array of size NxW. Stack Space is eliminated.
 
 ```
 int knapSack(int W, int wt[], int val[], int n)

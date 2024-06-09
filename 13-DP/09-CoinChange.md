@@ -1,3 +1,5 @@
+```
+
 class Solution
 {
 private:
@@ -36,3 +38,5 @@ public:
     return res;
   }
 };
+
+```
