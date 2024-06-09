@@ -1,13 +1,13 @@
 Memoization Approach
 
 Get the dp array and use the last row to find the min diff
-Time Complexity: O(N*totSum) +O(N) +O(N)
+Time Complexity: O(N\*totSum) +O(N) +O(N)
 
-Reason: There are two nested loops that account for O(N*totSum), at starting we are running a for loop to calculate totSum and at last a for loop to traverse the last row.
+Reason: There are two nested loops that account for O(N\*totSum), at starting we are running a for loop to calculate totSum and at last a for loop to traverse the last row.
 
-Space Complexity: O(N*totSum) + O(N)
+Space Complexity: O(N\*totSum) + O(N)
 
-Reason: We are using an external array of size ‘N * totSum’ and a stack space of O(N).
+Reason: We are using an external array of size ‘N \* totSum’ and a stack space of O(N).
 
 ```
 class Solution
@@ -59,11 +59,12 @@ public:
   }
 };
 
-``` <br />
+```
 
-    Tabulation Approach :  
+Tabulation Approach :
 
-``` class Solution
+```
+class Solution
 {
   int canPartition_(int n, vector<int> &arr)
   {
