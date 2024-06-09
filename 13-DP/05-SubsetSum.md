@@ -1,10 +1,11 @@
-// Given an array of non - negative integers, and a value sum,
-// determine if there is a subset of the given set with sum equal to given sum.
+Given an array of non - negative integers, and a value sum,
+determine if there is a subset of the given set with sum equal to given sum.
 
-/*
 Using recursion
 TC = O(2^N)
- */
+
+```
+
 class Solution
 {
 private:
@@ -31,17 +32,16 @@ public:
   }
 };
 
-/* Memoization of overlapping subproblems
-Time Complexity: O(N*K)
+```
 
-Reason: There are N*K states therefore at max ‘N*K’ new problems will be solved.
+Memoization of overlapping subproblems
+Time Complexity: O(N x K)
 
-Space Complexity: O(N*K) + O(N)
+Space Complexity: O(N x K) + O(N)
 
-Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N*K)).
+Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N x K)).
 
-*/
-
+```
 class Solution
 {
 private:
@@ -72,17 +72,17 @@ public:
   }
 };
 
-/* Memoization of overlapping subproblems
-Time Complexity: O(N*K)
+```
 
-Reason: There are N*K states therefore at max ‘N*K’ new problems will be solved.
+Time Complexity: O(N x K)
 
-Space Complexity: O(N*K)
+Reason: There are N x K states therefore at max N x K new problems will be solved.
+
+Space Complexity: O(N x K)
 
 Reason: no extra rec stack space
 
-*/
-
+```
 class Solution
 {
   bool solve(vector<int> &arr, int target)
@@ -107,3 +107,4 @@ class Solution
     return dp[n - 1][k];
   }
 };
+```
