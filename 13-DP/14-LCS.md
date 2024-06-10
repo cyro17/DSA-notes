@@ -1,8 +1,33 @@
 Largest Common Subsequences
 
 M - 1 : Get all the subsequences of both the strings either using power set or using recursion. <br/>
+TC = O(2 ^ n + m)
+SC = O(1)
 
-M-2 : Recursion with Memoized approach
+```
+class Solution {
+private:
+  int lcsUtil(int i, int j, string &s1, string &s2){
+    if(i<0 || j<0) return 0;
+
+    if(s1[i] == s2[j])
+      return 1 + lcsUtil(i-1, j-1, s1, s2);
+    else
+      return max(lcsUtil(i, j-1, s1, s2), lcsUtil(i-1, j, s1, s2));
+  }
+public:
+    int longestCommonSubsequence(string s1, string s2){
+    int n = s1.size(), m = s2.size();
+
+    return lcsUtil(n-1, m-1, s1, s2);
+  }
+};
+
+```
+
+M-2 : Memoized approach <br/>
+TC = O(NxM)
+SC = O(NxM) + O(N)
 
 ```
 class Solution {
