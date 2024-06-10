@@ -1,4 +1,5 @@
-Similar to 0/1 KnaSack but here we have multiple possiblilities to pick up and elmeent
+Similar to 0/1 KnaSack but here we have multiple possiblilities to pick up
+
 changes:
 after picking up dont go to the next index
 
