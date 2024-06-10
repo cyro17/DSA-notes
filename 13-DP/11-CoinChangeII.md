@@ -4,9 +4,17 @@ Use Pick and not pick method, to explore all ways and take the sum of both.
 
 Base Case :
 index = 0 (since we are doing memoization (top-down) approach)
-if target is divisible by the first element then return 1 => possible way
+if target is divisible by the first element then return 1 => possible
 
 else return 0 => cannot be possible to get to the target sum with this
+
+Time Complexity: O(NxT)
+
+Reason: There are NxT states therefore at max NxT new problems will be solved.
+
+Space Complexity: O(NxT) + O(N)
+
+Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(NxT)).
 
 ```
 class Solution {
