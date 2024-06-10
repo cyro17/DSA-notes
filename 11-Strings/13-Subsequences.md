@@ -1,5 +1,9 @@
 using recursion : pick or dont pick method
 
+TC = O(2 ^ N x N)
+
+SC = O(N)
+
 ```
 void util(int index, string &s, string &res, vector<string> &ds){
   int n = s.size();
@@ -31,6 +35,7 @@ vector<string> solve(string &s){
 Using Power Set Method
 
 TC = O(2 ^ N x N)
+
 SC = O(1)
 
 ```
