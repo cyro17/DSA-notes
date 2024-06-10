@@ -1,10 +1,12 @@
 Similar to Coin change problem, but here we have to find all the combination which leads to the target.
+
 Use Pick and not pick method, to explore all ways and take the sum of both.
 
 Base Case :
 index = 0 (since we are doing memoization (top-down) approach)
-if target is divisible by the first element then return 1 => possible way  
- else return 0 => cannot be possible to get to the target sum with this
+if target is divisible by the first element then return 1 => possible way
+
+else return 0 => cannot be possible to get to the target sum with this
 
 ```
 class Solution {
