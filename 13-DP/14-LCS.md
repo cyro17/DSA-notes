@@ -1,7 +1,7 @@
 Largest Common Subsequences
 
 M - 1 : Get all the subsequences of both the strings either using power set or using recursion. <br/>
-TC = O(2 ^ n + m)
+TC = O(2 ^ n + m) <br/>
 SC = O(1)
 
 ```
@@ -26,7 +26,7 @@ public:
 ```
 
 M-2 : Memoized approach <br/>
-TC = O(NxM)
+TC = O(NxM) <br/>
 SC = O(NxM) + O(N)
 
 ```
