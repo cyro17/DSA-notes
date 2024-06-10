@@ -17,10 +17,10 @@ private:
       return 0;
     }
     int max_ = INT_MIN;
-    int not_pick = util(index - 1, w, wt, val, n);
+    int not_pick = 0 + util(index - 1, w, wt, val, n);
     int pick = 0;
     if (wt[index] <= w)
-      pick = util(index - 1, w - wt[index], wt, val, n);
+      pick = val[index] + util(index - 1, w - wt[index], wt, val, n);
     max_ = max(pick, not_pick);
     return max_;
   }

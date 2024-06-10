@@ -19,7 +19,7 @@ Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(NxT)).
 ```
 class Solution {
 private:
-  int mod = 1e9;
+
   int util(int index, int target, vector<int> &arr, vector<vector<int>> &dp){
     // Base Case
     if(index == 0) {
