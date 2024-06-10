@@ -1,8 +1,8 @@
-Largest Common Subsequences
+# Largest Common Subsequences
 
-M - 1 : Get all the subsequences of both the strings either using power set or using recursion. <br/>
-TC = O(2 ^ n + m) <br/>
-SC = O(1)
+> M - 1 : Get all the subsequences of both the strings either using power set or using recursion.
+> **TC = O(2 ^ n + m)**.
+> **SC = O(1)**.
 
 ```
 class Solution {
@@ -25,9 +25,9 @@ public:
 
 ```
 
-M-2 : Memoized approach <br/>
-TC = O(NxM) <br/>
-SC = O(NxM) + O(N)
+> M-2 : Memoized approach.
+> **TC = O(NxM)**.
+> **SC = O(NxM) + O(N)**
 
 ```
 class Solution {
