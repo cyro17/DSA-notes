@@ -1,4 +1,4 @@
-###Using tabulation : generate the dp array
+### Using tabulation : generate the dp array
 
 > If the characters are same, look whether if it can be consecutive by checking index(i-1, j-1).
 > update the (i, j) = 1 + (i-1, j-1).
