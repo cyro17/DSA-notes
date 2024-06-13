@@ -34,16 +34,19 @@ public:
           }
       }
 
+      // checking if any there is any left in s1
       while( i > 0){
         res += s1[i-1];
         i--;
       }
 
+      // checking if any there is any left in s2
       while( j > 0){
         res += s2[j-1];
         j--;
       }
 
+      // since we use tabulation , the string we get in reverse order, therefore we need to reverse it.
       reverse(res.begin(), res.end());
       return res;
   }
