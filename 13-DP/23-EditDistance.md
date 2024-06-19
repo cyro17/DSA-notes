@@ -2,6 +2,19 @@
 
 > Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
 
+### Using String Matching:
+
+> if character matches:
+> no operation reqd , iterate over next rec call
+> 0 + f(i-1, j-1)
+
+> if character dont match:
+> case 1 : insertion => 1 + f(i, j-1).
+> case 2 : deletion => 1 + f(i-1, j).
+> case 3 : replacement => 1 + f(i-1, j-1).
+
+>     return minimum of above 3 cases.
+
 ```
 class Solution {
 private:
