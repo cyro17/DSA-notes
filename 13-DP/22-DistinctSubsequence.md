@@ -1,4 +1,14 @@
-# Number of Distinct Subsequence of s which is equal to t
+# Number of Distinct Subsequence of S1 which is equal to S2.
+
+### Using String Matching :
+
+> f(i, j) represents all distinct subsequence of s2[0...(j-1)] in s1[0...(i-1)].
+
+> when characters match (s1[i] == s2[j]).
+> f(i-1, j-1) + f(i-1, j) : work on the remaining index by decreasing both i and j + find more possiblity of matching.
+
+> when characters dont match (s1[i] != s2[j]).
+> decrease both the indexes and check for other possiblities.
 
 ```
 class Solution {
@@ -27,7 +37,15 @@ public:
 
 ```
 
-> Tabulation Approach
+> Time Complexity: O(N\*M).
+
+> Reason: There are N*M states therefore at max ‘N*M’ new problems will be solved.
+
+> Space Complexity: O(N\*M) + O(N+M).
+
+> Reason: We are using a recursion stack space(O(N+M)) and a 2D array ( O(N\*M)).
+
+### Tabulation Approach
 
 ```
 class Solution {
