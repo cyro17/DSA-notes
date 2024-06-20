@@ -1,9 +1,9 @@
 ```
 class Solution
 {
-	public:
-		vector<string> all_longest_common_subsequences(string s1, string s2){
-		    int n = s1.size(), m = s2.size();
+public:
+     vector<string> all_longest_common_subsequences(string s1, string s2){
+    	int n = s1.size(), m = s2.size();
 
         vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
         for(int i = 0; i<=n ; i++) dp[i][0] = 0;
@@ -41,6 +41,6 @@ class Solution
             if(res.length() == len)
         }
         return ans;
-		}
+    }
 };
 ```
