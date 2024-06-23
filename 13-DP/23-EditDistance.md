@@ -12,8 +12,7 @@
 > case 1 : insertion => 1 + f(i, j-1).
 > case 2 : deletion => 1 + f(i-1, j).
 > case 3 : replacement => 1 + f(i-1, j-1).
-
->     return minimum of above 3 cases.
+> return minimum of above 3 cases.
 
 ```
 class Solution {
