@@ -24,3 +24,38 @@ public:
     }
 };
 ```
+
+> Print LIS
+
+```
+class Solution {
+  public:
+    vector<int> longestIncreasingSubsequence(int n, vector<int>& arr) {
+        vector<int> dp(n, 1);
+        int max_ = 1;
+        for(int i = n-1; i>=0; i--){
+            for(int j = i; i <n; i++){
+                if(arr[i] < arr[j]){
+                    dp[i] = max(dp[i], dp[j] + 1);
+                    max_ = max(max_, dp[i]);
+                }
+            }
+        }
+        vector<int> res;
+        for(int i = 0; i<n; i++){
+            if(max_ == dp[i]){
+                res.push_back(arr[i]);
+                max_--;
+            }
+        }
+        return res;
+    }
+};
+
+```
+
+> LIS using Binary Search
+
+```
+int
+```
