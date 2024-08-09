@@ -1,17 +1,18 @@
-/*
-   [2, 2, 2, 3, 4, 4, 4] ==> return 3
- */
+# Single Number II
 
-/* Approach 1 : count no of occ of each bit position
-                  if (cnt % 3 == 1) set that bit
+> Given an integer array nums where every element appears three times except for one, which appears exactly once.
+> Find the single element and return it.
 
-         TC = O(N*32)
-         SC = 1
- */
+> [2, 2, 2, 3, 4, 4, 4] ==> return 3
 
-class Solution
-{
-public:
+### Approach 1 : count no of occ of each bit position. (Using Bit Manipulation)
+
+> if (cnt % 3 == 1) set that bit
+
+>        TC = O(N*32)
+>        SC = 1
+
+```
    int singleNumber(vector<int> &arr)
    {
       int n = arr.size(), ans = 0;
@@ -30,14 +31,17 @@ public:
       }
       return ans;
    }
+```
 
-   /* Using Middle Pointer : TC = NlogN + N/3
-         1. sort the array
-   1     2. start loop from 1...N , steps = 3 (jumping on the middle points)
-         3. if arr[i] != arr[i-1]
-                  return arr[i-1]
-         4. return arr[n-1]
-   */
+### Using Middle Pointer : TC = NlogN + N/3
+
+>     1. sort the array
+>     2. start loop from 1...N , steps = 3 (jumping on the middle points)
+>     3. if arr[i] != arr[i-1]
+>              return arr[i-1]
+>     4.  return arr[n-1]
+
+```
    int singleNumber_(vector<int> &arr)
    {
       sort(arr.begin(), arr.end());
@@ -48,13 +52,15 @@ public:
       }
       return arr[n - 1];
    }
+```
 
-   /* USing concept of buckets :
+### Using concept of buckets :
 
-         arr[i] will go to ones if not in twos
-                will go to twos if it is already in ones
-                will go to three if it is in already in twos
-    */
+>         arr[i] will go to ones if not in twos
+>                will go to twos if it is already in ones
+>                will go to three if it is in already in twos
+
+```
    int singleNumber_(vector<int> &arr)
    {
       int ones = 0, twos = 0;
@@ -65,4 +71,4 @@ public:
       }
       return ones;
    }
-};
+```
