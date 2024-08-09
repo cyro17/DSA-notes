@@ -1,3 +1,9 @@
+BFS using indegree
+1. push all the nodes with indegree == 0 to the queue.
+2. get the first node of the queue and add to the res.
+3. traverse the adjacent noes of the first node of the queue.
+4. decrease its indegree.
+5. if the indegree of the adjacent node ==0 , add it to the queue.
 ```
 vector<int> topoSort(int V, vector<int> adj[])
 	{
