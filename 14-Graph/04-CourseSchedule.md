@@ -4,7 +4,9 @@
 3. if linear ordering array returned is equal to the number of nodes, then it it possible to complete the entire course,
 4. else not possible.
 
+Time Complexity: O(V+E), where V = no. of nodes and E = no. of edges. This is a simple BFS algorithm.
 
+Space Complexity: O(N) + O(N) ~ O(2N), O(N) for the indegree array, and O(N) for the queue data structure used in BFS(where N = no.of nodes). Extra O(N) for storing the topological sorting. Total ~ O(3N).
 ```
 class Solution {
 private:
