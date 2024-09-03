@@ -1,6 +1,6 @@
 ## Eventual Safe Nodes
 
-### Using BFS Approach
+> BFS Approach ( Topo Sort )
 
 1. reverse the edges 
 2. calculate the indegrees of all the nodes
