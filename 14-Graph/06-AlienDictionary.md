@@ -8,9 +8,8 @@
  When is the ordering not possible?<br>
  There are two such cases when ordering is not possible:<br><br>
 	1. If every character matches and the largest word appears before the shortest word: For example, if “abcd” appears before “abc”, we can say the ordering is not possible. <br>
-	2. If there exists a cyclic dependency between the characters: For example, in the dictionary: dict: {“abc”, “bat”, “ade”} there exists a cyclic dependency between ‘a’ and ‘b’ <br>
+	2. If there exists a cyclic dependency between the characters: For example, in the dictionary: dict: {“abc”, “bat”, “ade”} there exists a cyclic dependency between ‘a’ and ‘b’ 
 	    because the dictionary states ‘a’ < ‘b’ < ‘a’, which is not possible.
-
 ```
 class Solution{
 private: 
