@@ -37,7 +37,7 @@ public:
 };
 
 /* Using Sieve of Eratosthenes :
-      The TC can be optimized to( N logN logN)
+      The TC can be optimized to( N log logN)
    algo:
 
       1. take a hash array of size n+1 and mark it all to true
