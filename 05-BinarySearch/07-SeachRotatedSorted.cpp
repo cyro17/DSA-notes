@@ -11,7 +11,7 @@ public:
          if (arr[mid] == target)
             return mid;
 
-                  // check if left half is sorted
+         // check if left half is sorted
          if (arr[low] <= arr[mid])
          {
             if (arr[low] <= target && target <= arr[mid])
