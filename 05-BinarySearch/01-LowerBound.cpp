@@ -1,13 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+
+// lower bound => smallest index s.t arr[idx] >= target 
+//                If not found => returns last index.
+
+// upper bound => smallest index s.t arr[idx] > target, 
+//                If not found => returns.
+
+// using C++ STL method => lower_bound(start_iterator, end_iterator, target) => returns iterator pointing to the required element
+
+// TC => Log(N)
+
 class Solution
 {
 public:
    int lowerBound(vector<int> arr, int n, int x)
    {
-      // Write your code here
-
       int l = 0, h = n - 1;
       int ans = n;
 
