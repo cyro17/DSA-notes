@@ -1,8 +1,8 @@
 
 
-> TC = O( 2N )
-> SC = O( N ) 
-'''
+> TC = O( 2N ), SC = O( N )
+
+```
 class Solution {
 public:
     vector<int> asteroidCollision(vector<int>& arr) {
@@ -26,9 +26,9 @@ public:
         return res;
     }
 };
-'''
+```
 
-'''
+```
 class Solution {
     public int[] asteroidCollision(int[] arr) {
         int n = arr.length;
@@ -49,4 +49,4 @@ class Solution {
         return res;
     }
 }
-'''
+```
