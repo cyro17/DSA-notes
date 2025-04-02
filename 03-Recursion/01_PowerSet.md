@@ -1,4 +1,4 @@
-/*   leetcode 78  https://leetcode.com/problems/subsets/
+![image](https://github.com/user-attachments/assets/15181e18-4b1e-4766-b423-9f0f19550938)/*   leetcode 78  https://leetcode.com/problems/subsets/
 */
 
 ```
@@ -30,6 +30,8 @@ public:
 ```
 
 Recursive Approach : 
+
+![image](https://github.com/user-attachments/assets/2d80f870-36de-4f00-abad-cb4dbc75c844)
 
 ```
 class Solution {
