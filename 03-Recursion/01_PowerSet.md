@@ -1,6 +1,8 @@
 /*   leetcode 78  https://leetcode.com/problems/subsets/
 */
 
+```
+
 class Solution {
 public:
     // power set 
@@ -24,3 +26,34 @@ public:
         return res;
     }
 };
+
+```
+
+Recursive Approach : 
+
+```
+class Solution {
+private:
+    void rec(int index, vector<int> &arr, vector<int> &ds, vector<vector<int>> &res){
+			if(index == arr.size()){
+				res.push_back(ds);
+				return;
+			}
+
+			//pick 
+			ds.push_back(arr[index]);
+			rec(index + 1, arr, ds, res);
+
+			// non-pick
+			ds.pop_back();
+			rec(index + 1, arr, ds, res);
+		}
+public:
+    vector<vector<int>> subsets(vector<int>& arr) {
+        vector<vector<int>> res;
+			vector<int> ds;
+			rec(0, arr, ds, res);
+			return res;
+    }
+};
+```
