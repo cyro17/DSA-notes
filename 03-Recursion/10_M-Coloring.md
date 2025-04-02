@@ -41,3 +41,49 @@ public:
    }
 };
 ```
+
+Java Solution
+
+```
+class Solution{
+    private boolean isSafe(int node, int color, int[] colors,
+                           int v, int m, List<List<Integer>> adjList){
+        for(int it :  adjList.get(node)){
+            if(colors[it] == color) return false;
+        }
+        return  true;
+    }
+
+
+    private boolean solve(int node, int[] colors, int v, int m, List<List<Integer>> adjList){
+        if(node == v) return  true;
+        for (int i = 0; i < m; i++) {
+            if(isSafe(node, i, colors, v, m, adjList)){
+                colors[node] = i;
+                if(solve(node + 1, colors, v, m, adjList)) return true;
+
+                colors[node] = -1;
+            }
+        }
+        return false;
+    }
+
+    public boolean graphColoring(int v, List<int[]> edges, int m){
+        List<List<Integer>> adjList = new ArrayList<>();
+        for (int i = 0; i < v; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+        for(int[] edge : edges){
+            adjList.get(edge[0]).add(edge[1]);
+            adjList.get(edge[1]).add(edge[0]);
+        }
+
+        int[] colors = new int[v];
+        Arrays.fill(colors, -1);
+
+        return solve(0, colors, v, m, adjList);
+    }
+}
+
+```
