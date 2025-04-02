@@ -1,44 +1,43 @@
+> TC = O(N^M)   , N-> no of vertices, M-> no of possible colors
+
+```
 class Solution
 {
 private:
-   bool isSafe(int node, int color[], bool graph[101][101], int n, int col)
-   {
-      for (int k = 0; k < n; ++k)
-      {
-         if (k != node && graph[k][node] == 1 && color[k] == col)
-            return false;
-      }
-      return true;
+   bool isSafe(int node, int c, vector<int> &colors, vector<vector<int>> &adjList, int v, int m){
+   	for(auto it: adjList[node]){
+   		if(colors[it] == c ) return 0;
+   	}
+   	return 1;
    }
-
-   bool solve(int node, int color[], int m, int n, bool graph[101][101])
-   {
-      if (node == n)
-         return true;
-
-      for (int i = 1; i <= m; ++i)
-      {
-         if (isSafe(node, color, graph, n, i))
-         {
-            color[node] = i;
-            if (solve(node + 1, color, m, n, graph))
-               return true;
-
-            // backtrack
-            color[node] = 0;
-         }
-      }
-      return false;
+   
+   bool solve(int node, vector<int> &colors, int v, int m, vector<vector<int>> &adjList){
+   	if(node == v) return 1;
+   
+   	for (int i = 0; i < m; ++i)
+   	{
+   		if(isSafe(node, i, colors, adjList, v, m)){
+   			colors[node] = i;
+   			if(solve(node + 1, colors, v, m, adjList)) 
+   				return 1;
+   
+   			// backtrack 
+   			colors[node] = -1;
+   		}
+   	}
+   	return 0;
    }
-
 public:
-   bool graphColoring(bool graph[101][101], int m, int n)
-   {
-      int color[n] = {0};
-      if (solve(0, color, m, n, graph))
-      {
-         return true;
-      }
-      return false;
+   bool graphColoring(int v, vector<pair<int, int >> &edges, int m){
+   	vector<vector<int>> adjList(v);
+   	for(auto it: edges){
+   		adjList[it.first].push_back(it.second);
+   		adjList[it.second].push_back(it.first);
+   	}
+   
+   	vector<int> colors(v, -1);
+   	if(solve(0, colors, v, m, adjList)) return 1;
+   	return 0;
    }
 };
+```
