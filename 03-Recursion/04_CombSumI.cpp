@@ -28,21 +28,21 @@ class Solution {
 public:
     void rec(int ind, int target, vector<vector<int>> &res, vector<int> &ds, vector<int> &arr){
 
-		if(ind == arr.size()){
-			if(target==0)
-				res.push_back(ds);
-			return;
-		}
-
-		if(arr[ind] <=target){
-			//pick
-			ds.push_back(arr[ind]);
-			rec(ind, target-arr[ind], res, ds, arr);
-			ds.pop_back();
-		}
-		// dont pick 
-		rec(ind+1, target, res, ds, arr);
+	if(ind == arr.size()){
+		if(target==0)
+			res.push_back(ds);
+		return;
 	}
+
+	if(arr[ind] <=target){
+		//pick
+		ds.push_back(arr[ind]);
+		rec(ind, target-arr[ind], res, ds, arr);
+		ds.pop_back();
+	}
+	// dont pick 
+	rec(ind+1, target, res, ds, arr);
+    }
 
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> res;
