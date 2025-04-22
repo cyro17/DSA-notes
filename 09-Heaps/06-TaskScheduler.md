@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/* Task Scheduler :
+Task Scheduler :
     Using heaps greedily:
 
       1. create a map and store the occurrences of each character
@@ -26,7 +26,7 @@ using namespace std;
 
 TC = O(n)
 
- */
+```
 
 int leastInterval(vector<char> &tasks, int n)
 {
@@ -79,3 +79,41 @@ int main()
   cout << leastInterval(tasks, n);
   return 0;
 }
+
+```
+
+# Java Solution 
+
+```
+class Solution {
+    public static int leastInterval(char[] tasks, int n) {
+        Map<Character, Integer> mp = new HashMap<>(26);
+        for(char ch : tasks){
+            mp.put(ch, mp.getOrDefault(ch, 0) +1 );
+        }
+        PriorityQueue<Integer> pq = new PriorityQueue<>(26);
+        for(Map.Entry<Character, Integer> entry : mp.entrySet()){
+            pq.offer(entry.getValue());
+        }
+        int time = 0;
+        while(!pq.isEmpty()){
+            List<Integer> list = new ArrayList<>(26);
+            for (int i = 1; i <= n+ 1; i++) {
+                if(!pq.isEmpty()){
+                    int freq = pq.poll();
+                    freq--;
+                    list.add(freq);
+                }
+            }
+            for(int i : list){
+                if(i != 0) pq.add(i);
+            }
+
+            if(!pq.isEmpty()) time += n+1;
+            else time += list.size();
+        }
+        return time;
+    }
+}
+
+```
