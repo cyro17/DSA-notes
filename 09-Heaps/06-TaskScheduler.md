@@ -91,7 +91,7 @@ class Solution {
         for(char ch : tasks){
             mp.put(ch, mp.getOrDefault(ch, 0) +1 );
         }
-        PriorityQueue<Integer> pq = new PriorityQueue<>(26);
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
         for(Map.Entry<Character, Integer> entry : mp.entrySet()){
             pq.offer(entry.getValue());
         }
