@@ -91,7 +91,7 @@ class Solution {
         for(char ch : tasks){
             mp.put(ch, mp.getOrDefault(ch, 0) +1 );
         }
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+        PriorityQueue<Integer> pq = new PriorityQueue<>(26);
         for(Map.Entry<Character, Integer> entry : mp.entrySet()){
             pq.offer(entry.getValue());
         }
@@ -101,16 +101,11 @@ class Solution {
             for (int i = 1; i <= n+ 1; i++) {
                 if(!pq.isEmpty()){
                     int freq = pq.poll();
-                    freq--;
-                    list.add(freq);
+                    if(freq>1) list.add(freq - 1);
                 }
             }
-            for(int i : list){
-                if(i != 0) pq.add(i);
-            }
-
-            if(!pq.isEmpty()) time += n+1;
-            else time += list.size();
+            for(int i : list) pq.offer(i);
+            time += pq.isEmpty() ? list.size() : n+1;   
         }
         return time;
     }
