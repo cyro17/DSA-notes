@@ -8,7 +8,11 @@ doc:
 
 /*
       T.C =>  N^2
-      SC =>  N + M
+      SC =>  N + M  -- extra space --> optimized in later approch 
+
+      1. Take two array representing row and col 
+      2. traverse through the matrix and if 0 is found , mark the respective row and col = 1;
+      3. loop over matrix, and check the relative row | col, if its marked 1 -> mark the respective element = 0;
 
       in optimal approach we will try to optimize the space comp
  */
@@ -46,8 +50,5 @@ public:
    }
 };
 
-int main()
-{
 
-   return 0;
-}
+
