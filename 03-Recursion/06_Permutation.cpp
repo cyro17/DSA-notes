@@ -99,3 +99,34 @@ public:
         return res;
     }
 };
+
+
+// String Permutaion ,(Optimal Approach ) TC = O (N ^ 2)
+class Solution {
+    public String getPermutation(int n, int k) {
+        List<Integer> nums = new ArrayList<>();
+        StringBuilder res = new StringBuilder();
+
+        int blockSize = 1;
+        for(int i = 1; i < n; i++){
+            blockSize *= i;
+            nums.add(i);
+        }
+
+        nums.add(n);
+        k = k - 1;
+
+        while(true){
+            int index = k / blockSize;
+
+            res.append(nums.get(index));
+            nums.remove(index);
+
+            if(nums.size() == 0) break;
+
+            k = k % blockSize;
+            blockSize = blockSize / nums.size(); 
+        }
+        return res.toString();
+    }
+}
