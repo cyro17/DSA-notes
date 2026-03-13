@@ -82,11 +82,11 @@ public:
 
 /*
 
-Optimized approach => using Hashing
-                     we can optimize on space complexity
+Optimized approach => using Hashing , check function is not needed now, so O(N) will be optimized here
+                     
 
-TC => O(N! * N)
-SC =-> O(N)
+TC => O(N!)
+SC =-> O(N)  -> hash array + rec stack
 */
 
 class Solution
