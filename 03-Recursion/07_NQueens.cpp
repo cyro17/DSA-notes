@@ -147,3 +147,61 @@ public:
         return ans;
     }
 };
+
+
+// Using BitMasking 
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+private:
+
+    void solve(int n,
+               int cols,
+               int diag1,
+               int diag2,
+               vector<string> &board,
+               vector<vector<string>> &res,
+               int row) {
+
+        if(row == n){
+            res.push_back(board);
+            return;
+        }
+
+        int available = ((1<<n) - 1) & ~(cols | diag1 | diag2);
+
+        while(available){
+
+            int position = available & (-available); // rightmost set bit
+            available = available & (available - 1); // remove that bit
+
+            int col = log2(position);
+
+            board[row][col] = 'Q';
+
+            solve(n,
+                  cols | position,
+                  (diag1 | position) << 1,
+                  (diag2 | position) >> 1,
+                  board,
+                  res,
+                  row + 1);
+
+            board[row][col] = '.';
+        }
+    }
+
+public:
+    vector<vector<string>> solveNQueens(int n) {
+
+        vector<vector<string>> res;
+        vector<string> board(n, string(n,'.'));
+
+        solve(n, 0, 0, 0, board, res, 0);
+
+        return res;
+    }
+};
