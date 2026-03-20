@@ -32,7 +32,7 @@ public:
     }
 };
 
-TC = O(2N) 
+// TC = O(2N) 
     
 class Solution {
     public int lengthOfLongestSubstring(String s) {
@@ -58,7 +58,7 @@ class Solution {
 }
 
 
-
+// TC = O(N) , single pass through all the element 
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         int n = s.length();
