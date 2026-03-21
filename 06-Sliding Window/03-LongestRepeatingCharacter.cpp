@@ -1,33 +1,23 @@
-#include <bits/stdc++.h>
-using namespace std;
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int n = s.length();
+        int max_len = 0, max_freq = 0, l = 0, r  = 0;
+        int[] freq = new int[26];
 
-class Solution
-{
-public:
-  int characterReplacement(string s, int k)
-  {
-    vector<int> charCount(26, 0);
-    int l = 0, r = 0, maxCharCount = 0;
-    for (r = 0; r < s.size(); ++r)
-    {
-      charCount[s[r] - 'A']++;
-      maxCharCount = max(maxCharCount, charCount[s[r] - 'A']);
+        while(r < n){
+            int index = s.charAt(r) - 'A';
+            freq[index]++;
+            max_freq = Math.max(max_freq, freq[index]);
 
-      if (r - l + 1 - maxCharCount > k)
-      {
-        charCount[s[l] - 'A']--; // Decrement the count for the character at the l index as it's going out of the window
+            while((r - l + 1 )- max_freq > k){
+                freq[s.charAt(l) - 'A']--;
+                l++;
+            } 
 
-        l++; // Shrink the window from the l
-      }
+            max_len = Math.max(max_len, r - l + 1);
+            r++;
+        }
+        return max_len;
+        
     }
-    return r - l;
-  }
-};
-
-int main()
-{
-  Solution obj;
-  string s = "ABAB";
-  cout << obj.characterReplacement(s, 2);
-  return 0;
 }
