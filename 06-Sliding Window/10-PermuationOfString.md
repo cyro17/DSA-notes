@@ -56,3 +56,46 @@ class Solution {
 }
 
 ```
+
+Optimized : Using Sliding window
+> generate a sliding window of size of length s1
+> while iterating on s2, keep a character freq match
+
+TC = O(N)
+```
+
+  public boolean checkInclusion(String s1, String s2) {
+
+    int n = s1.length(), m = s2.length();
+
+    if (n > m) return false;
+
+    int[] freq1 = new int[26];
+    int[] freq2 = new int[26];
+
+    // build initial window
+    for (int i = 0; i < n; i++) {
+      freq1[s1.charAt(i) - 'a']++;
+      freq2[s2.charAt(i) - 'a']++;
+    }
+
+    if (Arrays.equals(freq1, freq2)) return true;
+
+    int l = 0, r = n;
+
+    while (r < m) {
+
+      freq2[s2.charAt(r) - 'a']++;
+      freq2[s2.charAt(l) - 'a']--;
+
+      if (Arrays.equals(freq1, freq2)) return true;
+
+      r++;
+      l++;
+    }
+
+    return false;
+  }
+
+
+```
