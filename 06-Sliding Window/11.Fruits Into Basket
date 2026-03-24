@@ -1,0 +1,29 @@
+Fruits into basket https://leetcode.com/problems/fruit-into-baskets/
+> Brute Force: generate all the subarrays, get the max length subarray whose distinct element = 2
+> TC = O(N^2)
+
+Optimized : Using Sliding Window
+> TC = O(N)
+```
+class Solution {
+    public int totalFruit(int[] arr) {
+        int n = arr.length;
+        int l = 0, r = 0, max_ = 0;
+        Map<Integer, Integer> mp = new HashMap<>();
+        while ( r < n){
+            
+            mp.put(arr[r], mp.getOrDefault(arr[r],0) + 1);
+            while(mp.size() > 2) {
+                mp.put(arr[l], mp.get(arr[l])-1);
+                if(mp.get(arr[l]) == 0) {
+                    mp.remove(arr[l]);
+                }
+                l++;
+            }
+            max_ = Math.max(max_, r - l + 1);
+            r++;
+        }
+        return max_;
+    }
+}
+```
