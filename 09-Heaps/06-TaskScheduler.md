@@ -159,30 +159,36 @@ int main()
 # Java Solution 
 
 ```
-class Solution {
-    public static int leastInterval(char[] tasks, int n) {
-        Map<Character, Integer> mp = new HashMap<>(26);
-        for(char ch : tasks){
-            mp.put(ch, mp.getOrDefault(ch, 0) +1 );
-        }
-        PriorityQueue<Integer> pq = new PriorityQueue<>(26);
-        for(Map.Entry<Character, Integer> entry : mp.entrySet()){
-            pq.offer(entry.getValue());
-        }
+public int leastInterval(char[] arr, int n) {
+
+        int total = arr.length;
+        ArrayList<Integer> freqMap = new ArrayList<>(Collections.nCopies(26, 0));
+        for(char c : arr)
+            freqMap.set(c-'A', freqMap.get(c-'A')+1);
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b)-> b - a);
+        for(int f: freqMap)
+            if(f > 0) pq.offer(f);
+
         int time = 0;
         while(!pq.isEmpty()){
-            List<Integer> list = new ArrayList<>(26);
-            for (int i = 1; i <= n+ 1; i++) {
+            ArrayList<Integer> temp = new ArrayList<>();
+
+            for (int i = 1; i <= n + 1; i++) {
                 if(!pq.isEmpty()){
-                    int freq = pq.poll();
-                    if(freq>1) list.add(freq - 1);
+                    int freq = pq.peek(); pq.poll();
+                    freq--;
+                    temp.add(freq);
                 }
             }
-            for(int i : list) pq.offer(i);
-            time += pq.isEmpty() ? list.size() : n+1;   
+            for(int i: temp){
+                if(i > 0) pq.offer(i);
+            }
+            if(pq.isEmpty()) time += temp.size();
+            else time += (n + 1);
         }
+
         return time;
-    }
 }
 
 ```
