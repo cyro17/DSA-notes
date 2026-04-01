@@ -1,14 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/*
-Brute Force:
-  1. create ans array
-  2. insert all elements of k arrays into it .
-  3. sort the ans array
 
-  TC = (n * k) log (n * k)
-  SC = (N * K)
+Brute Force:
+  1. create a sorted array from it
+  2. now compare the indices and return 
+
+  > Java Code  TC = O(N^2)
+  
+```
+int[] arr2 = Arrays.copyOf(arr, n);
+        Arrays.sort(arr2);
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr2.length; j++) {
+                if(arr2[j]==arr[i]){
+                    if(Math.abs(j - i)>k){
+                        return "No";
+                    }
+                }
+            }
+        }
+        return "Yes";
+```
 
 
 Approach-2 :  USing min-heap
@@ -21,7 +35,7 @@ Approach-2 :  USing min-heap
 
   TC = (N* K) log K
   SC = N * k
- */
+ 
 
 class Node{
 public:
