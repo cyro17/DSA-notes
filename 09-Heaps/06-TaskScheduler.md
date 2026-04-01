@@ -101,9 +101,7 @@ Java code
 TC = O(n)
 
 ```
-
-int leastInterval(vector<char> &tasks, int n)
-{
+int leastInterval(vector<char> &tasks, int n){
   vector<int> mp(26, 0);
   for (char &ch : tasks)
   {
