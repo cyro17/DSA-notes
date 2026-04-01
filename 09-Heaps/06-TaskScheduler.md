@@ -40,6 +40,41 @@ int leastInterval(vector<char>& arr, int n) {
     return time;
 }
 ```
+Java code 
+```
+
+        int total = arr.length;
+        int[] freq  = new int[26];
+        for(char c: arr) freq[c-'A']++;
+
+        int time = 0;
+        int[] nextAvailable = new int[26];
+
+        while(total> 0){
+            ArrayList<Integer> available = new ArrayList<>();
+            for (int i = 0; i < 26; i++) {
+                if(freq[i] > 0 && nextAvailable[i] <= time) {
+                    available.add(i);
+                }
+            }
+
+            if(!available.isEmpty()){
+                int chosen = available.getFirst();
+                for(int index : available){
+                    if(freq[index] > freq[chosen]) chosen = index;
+                }
+
+                freq[chosen]--;
+                total--;
+                nextAvailable[chosen] = time + n + 1;
+
+            }
+            time++;
+        }
+        return time;
+    }
+```
+```
 
     Using heaps greedily:
 
