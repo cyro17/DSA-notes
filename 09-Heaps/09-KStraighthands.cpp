@@ -1,121 +1,150 @@
-#include <bits/stdc++.h>
-using namespace std;
+# Hands of Straights (LeetCode 846)
 
-/*
-Approach 1:
-  1. create a frequency map
-  2. sort the array 
-  3. loop over array 
-    1. if not present in map 
-      1. get all the combination startig from first card
+Given an array of cards and a group size `k`, check whether all cards can be rearranged into groups of `k` consecutive cards.
 
-  TC = N^2
-  SC = O(N)
-*/
-int straightHands(vector<int> &arr, int k){
-  int n = arr.size();
-  unordered_map<int, int> mp;
-  sort(arr.begin(), arr.end());
+**Example**
+```
+hand = [1,2,3,6,2,3,4,7,8],  k = 3
+→ [1,2,3], [2,3,4], [6,7,8]  →  true
 
-  for(int &i: arr){
-    if(mp[i] == 0) continue;
-    for (int j = 0; j < k; ++j)
-    {
-      int curr = i + j;
-      if(!mp[curr]) return 0;
-      mp[curr]--;
-    }
-  }
-  return 1;
-}
+hand = [1,2,3,4],  k = 3
+→ can't form complete groups  →  false
+```
 
-/*
-Approach 2: 
-  1. create frequency map 
-  2. create min heap and insett distinct values
-  3. loop over pq 
-    1. for top element , check if next two cards are avail
-      1. if avail => update map value 
-      2. if not => return 0;
+---
 
-  TC = NlogN + N*K
+## Approach 1: Brute Force — O(N² × K)
 
-*/
+**Idea:** Sort the array and build a frequency map. Loop over each card — if it's still available, try to form a group of `k` consecutive cards starting from it. Decrement frequencies as cards are used.
 
-bool straightHands_opt1(vector<int>& arr, int k) {
+### C++
+
+```cpp
+int straightHands(vector<int>& arr, int k) {
     int n = arr.size();
-    if(n % k) return 0;
+    if (n % k != 0) return 0;
 
     unordered_map<int, int> mp;
-    priority_queue<int, vector<int>, greater<int>> pq;
+    for (int& i : arr) mp[i]++;
 
-    for (int i = 0; i < n; ++i)
-    {
-    // 1. if not present in map then only push into pq
-      if(mp.find(arr[i]) == mp.end())
-        pq.push(arr[i]);
-    // 2. update the frequency of elements in map
-      mp[arr[i]]++;
+    sort(arr.begin(), arr.end());
+
+    for (int& i : arr) {
+        if (mp[i] == 0) continue;       // card already used up, skip
+
+        for (int j = 0; j < k; j++) {
+            int curr = i + j;
+            if (!mp[curr]) return 0;    // consecutive card not available
+            mp[curr]--;
+        }
     }
-
-    while(!pq.empty()){
-    // 1. get the sequence of cards
-      int first = pq.top();
-      int min_ = INT_MAX;
-
-    for (int card = first; card <= first + k -1; ++card)
-    {
-      if(pq.empty() || pq.top() != card)
-        return 0;
-
-      pq.pop();
-      min_ = min(min_, mp[card]);
-    }
-
-    // 2. update the map and pq
-    for (int card = first; card <= first + k -1; ++card)
-    {
-      int val = mp[card];
-      mp[card] = val - min_;
-      if(val - min_ > 0) 
-        pq.push(card);
-    }
-  }    
-  return 1;
+    return 1;
 }
+```
 
-/*
-Approach 3: 
-  1. create a frequency map 
-  2. sort the array 
-  3. loop over each card
-    1. if card is in map 
-      1. check if next 2 cards is present 
-        1. if available, decrease their values in map 
-        2. if not then return 0
+> **Why sort first?** So we always try to start a group from the smallest available card,
+> avoiding scenarios where we skip over a card that can only be a group starter.
 
-  TC = NlogN + N*K
-*/
+### Complexity
 
-int straightHands_opt2(vector<int> &arr, int k){
-  int n = arr.size();
-  unordered_map<int, int> mp;
-  sort(arr.begin(), arr.end());
+| | |
+|---|---|
+| Time | O(N log N + N × K) — sort + for each card try forming a group of size K |
+| Space | O(N) |
 
-  for(int &i: arr){
-    if(mp[i] == 0) continue;
-    for (int j = 0; j < k; ++j)
-    {
-      int curr = i + j;
-      if(!mp[curr]) return 0;
-      mp[curr]--;
+---
+
+## Approach 2: Optimal — TreeMap — O(N log N)
+
+**Bottleneck in Approach 1:** `unordered_map` has no ordering — you can't efficiently fetch the smallest available card. This forces the outer sort + scan.
+
+**Fix:** Use a `TreeMap` which keeps keys sorted. `firstKey()` always gives the smallest available card in O(log N), and all map operations (get, put, remove) are O(log N).
+
+### Algorithm
+
+1. Build a frequency map using `TreeMap` (keys auto-sorted)
+2. While map is not empty:
+   - Pick `start = firstKey()` — smallest remaining card
+   - Try to form a group `[start, start+1, ..., start+k-1]`
+   - For each card needed, decrement its frequency — remove if it hits 0
+   - If any consecutive card is missing → return false
+
+### Dry Run
+
+```
+hand = [1,2,3,6,2,3,4,7,8],  k = 3
+
+TreeMap = {1:1, 2:2, 3:2, 4:1, 6:1, 7:1, 8:1}
+
+Round 1: start=1, need [1,2,3]
+         1→0 (remove), 2→1, 3→1
+         map = {2:1, 3:1, 4:1, 6:1, 7:1, 8:1}
+
+Round 2: start=2, need [2,3,4]
+         2→0 (remove), 3→0 (remove), 4→0 (remove)
+         map = {6:1, 7:1, 8:1}
+
+Round 3: start=6, need [6,7,8]
+         6→0, 7→0, 8→0
+         map = {}
+
+→ true ✓
+
+────────────────────────────────────────
+
+hand = [1,2,3,4],  k = 3
+
+TreeMap = {1:1, 2:1, 3:1, 4:1}
+
+Round 1: start=1, need [1,2,3] → done
+         map = {4:1}
+
+Round 2: start=4, need [4,5,6]
+         need 5 → not in map → return false ✓
+```
+
+### Java
+
+```java
+public boolean isNStraightHand(int[] hand, int groupSize) {
+    if (hand.length % groupSize != 0) return false;   // early exit
+
+    TreeMap<Integer, Integer> freq = new TreeMap<>();
+    for (int card : hand)
+        freq.put(card, freq.getOrDefault(card, 0) + 1);
+
+    while (!freq.isEmpty()) {
+        int start = freq.firstKey();                  // smallest available card
+
+        for (int i = 0; i < groupSize; i++) {
+            int need = start + i;
+
+            if (!freq.containsKey(need))
+                return false;                         // consecutive card missing
+
+            int count = freq.get(need);
+            if (count == 1)
+                freq.remove(need);                    // exhausted, clean up
+            else
+                freq.put(need, count - 1);
+        }
     }
-  }
-
-  return 1;
+    return true;
 }
+```
 
+### Complexity
 
-int main(){
-  return 0;
-}
+| | |
+|---|---|
+| Time | O(N log N) — each card inserted and removed from TreeMap exactly once, all operations O(log N) |
+| Space | O(N) |
+
+---
+
+## Complexity Comparison
+
+| Approach | Time | Space |
+|---|---|---|
+| Brute Force | O(N log N + N × K) | O(N) |
+| TreeMap | **O(N log N)** | O(N) |
