@@ -9,7 +9,8 @@ Brute Force:
   > Java Code  TC = O(N^2)
   
 ```
-int[] arr2 = Arrays.copyOf(arr, n);
+    public String isKSortedArray(int[] arr, int n, int k) {
+        int[] arr2 = Arrays.copyOf(arr, n);
         Arrays.sort(arr2);
 
         for (int i = 0; i < arr.length; i++) {
@@ -22,6 +23,7 @@ int[] arr2 = Arrays.copyOf(arr, n);
             }
         }
         return "Yes";
+    }
 ```
 
 
