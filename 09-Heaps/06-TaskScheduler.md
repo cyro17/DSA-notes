@@ -1,192 +1,166 @@
+# Task Scheduler (LeetCode 621)
 
+Given a list of tasks and a cooldown interval `n`, find the minimum number of CPU intervals needed to finish all tasks.
 
-Task Scheduler :
-    Brute Force approach: O(N^2)
+---
 
-```
+## Approach 1: Brute Force — O(N²)
+
+**Idea:** At each time unit, find all currently available tasks (not in cooldown), then greedily pick the one with the highest remaining frequency.
+
+### C++
+
+```cpp
 int leastInterval(vector<char>& arr, int n) {
-    
     int total = arr.size();
-    int* freq = new int[26];
-
-    for(char c : arr)
+    int freq[26] = {};
+    for (char c : arr)
         freq[c - 'A']++;
 
     int time = 0;
-    int* nextavail = new int[26];
+    int nextAvail[26] = {};
 
-    while(total > 0){
-        // get the currently avaialble task
+    while (total > 0) {
         vector<int> avail;
-        for(int i = 0; i< 26; i++){
-            if(freq[i] > 0 && nextavail[i] <= time)
+        for (int i = 0; i < 26; i++) {
+            if (freq[i] > 0 && nextAvail[i] <= time)
                 avail.push_back(i);
         }
 
-        if(!avail.empty()){
+        if (!avail.empty()) {
             int chosen = avail[0];
-            for(int index: avail){
-                if(freq[index] > freq[chosen])
+            for (int index : avail) {
+                if (freq[index] > freq[chosen])
                     chosen = index;
             }
-
             freq[chosen]--;
             total--;
-            nextavail[chosen] = time + n + 1;
-
+            nextAvail[chosen] = time + n + 1;
         }
         time++;
     }
     return time;
 }
 ```
-Java code 
-```
 
-        int total = arr.length;
-        int[] freq  = new int[26];
-        for(char c: arr) freq[c-'A']++;
+### Java
 
-        int time = 0;
-        int[] nextAvailable = new int[26];
-
-        while(total> 0){
-            ArrayList<Integer> available = new ArrayList<>();
-            for (int i = 0; i < 26; i++) {
-                if(freq[i] > 0 && nextAvailable[i] <= time) {
-                    available.add(i);
-                }
-            }
-
-            if(!available.isEmpty()){
-                int chosen = available.getFirst();
-                for(int index : available){
-                    if(freq[index] > freq[chosen]) chosen = index;
-                }
-
-                freq[chosen]--;
-                total--;
-                nextAvailable[chosen] = time + n + 1;
-
-            }
-            time++;
-        }
-        return time;
-    }
-```
-```
-
-    Using heaps greedily:
-
-      1. create a map and store the occurrences of each character
-      2. put the values of the map into a max heaps.
-
-        we initilize max heap so that we can get the char with highest occurrences first
-
-      3. now take n+1 elements from the pq until it is not empty.
-
-          1. if(pq is not empty)
-              1. get freq by getting the top element of the pq
-              2. since its getting marked, decrease its value and push
-                 it back to a temp array
-
-      4. loop over temp array and push its value back to heap if the value if > 0
-      5. if pq is empty
-          time = time + tmp.size()
-         else
-          time += n+1
-
-      return time;
-
-TC = O(n)
-
-```
-int leastInterval(vector<char> &tasks, int n){
-  vector<int> mp(26, 0);
-  for (char &ch : tasks)
-  {
-    mp[ch - 'A']++;
-  }
-
-  priority_queue<int> pq;
-  for (int i = 0; i < 26; i++)
-  {
-    if (mp[i] > 0)
-      pq.push(mp[i]);
-  }
-
-  int time = 0;
-  while (!pq.empty())
-  {
-    vector<int> tmp;
-    for (int i = 1; i <= n + 1; i++)
-    {
-      if (!pq.empty())
-      {
-        int freq = pq.top();
-        pq.pop();
-        freq--;
-        tmp.push_back(freq);
-      }
-    }
-
-    for (int &f : tmp)
-    {
-      if (f > 0)
-        pq.push(f);
-    }
-    if (pq.empty())
-    {
-      time += tmp.size();
-    }
-    else
-      time += (n + 1);
-  }
-  return time;
-}
-int main()
-{
-  vector<char> tasks = {'A', 'A', 'A', 'B', 'B', 'B'};
-  int n = 2;
-  cout << leastInterval(tasks, n);
-  return 0;
-}
-
-```
-
-# Java Solution 
-
-```
+```java
 public int leastInterval(char[] arr, int n) {
+    int total = arr.length;
+    int[] freq = new int[26];
+    for (char c : arr) freq[c - 'A']++;
 
-        int total = arr.length;
-        ArrayList<Integer> freqMap = new ArrayList<>(Collections.nCopies(26, 0));
-        for(char c : arr)
-            freqMap.set(c-'A', freqMap.get(c-'A')+1);
+    int time = 0;
+    int[] nextAvailable = new int[26];
 
-        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b)-> b - a);
-        for(int f: freqMap)
-            if(f > 0) pq.offer(f);
-
-        int time = 0;
-        while(!pq.isEmpty()){
-            ArrayList<Integer> temp = new ArrayList<>();
-
-            for (int i = 1; i <= n + 1; i++) {
-                if(!pq.isEmpty()){
-                    int freq = pq.peek(); pq.poll();
-                    freq--;
-                    temp.add(freq);
-                }
-            }
-            for(int i: temp){
-                if(i > 0) pq.offer(i);
-            }
-            if(pq.isEmpty()) time += temp.size();
-            else time += (n + 1);
+    while (total > 0) {
+        ArrayList<Integer> available = new ArrayList<>();
+        for (int i = 0; i < 26; i++) {
+            if (freq[i] > 0 && nextAvailable[i] <= time)
+                available.add(i);
         }
 
-        return time;
+        if (!available.isEmpty()) {
+            int chosen = available.get(0);
+            for (int index : available) {
+                if (freq[index] > freq[chosen]) chosen = index;
+            }
+            freq[chosen]--;
+            total--;
+            nextAvailable[chosen] = time + n + 1;
+        }
+        time++;
+    }
+    return time;
 }
-
 ```
+
+---
+
+## Approach 2: Greedy + Max Heap — O(N)
+
+**Idea:** Use a max heap to always execute the most frequent available task first. Process tasks in windows of size `n + 1` (one full cooldown cycle).
+
+### Algorithm
+
+1. Count the frequency of each character and push all frequencies into a **max heap**.
+2. While the heap is not empty, take up to `n + 1` tasks from the heap:
+   - Pop the top frequency, decrement it, and store it in a temporary list.
+3. After the window, push back any tasks with remaining frequency > 0.
+4. Add to time:
+   - `temp.size()` — if the heap is now empty (last partial window)
+   - `n + 1` — otherwise (full cooldown window)
+
+### C++
+
+```cpp
+int leastInterval(vector<char>& tasks, int n) {
+    vector<int> mp(26, 0);
+    for (char& ch : tasks)
+        mp[ch - 'A']++;
+
+    priority_queue<int> pq;
+    for (int i = 0; i < 26; i++)
+        if (mp[i] > 0) pq.push(mp[i]);
+
+    int time = 0;
+    while (!pq.empty()) {
+        vector<int> tmp;
+
+        for (int i = 1; i <= n + 1; i++) {
+            if (!pq.empty()) {
+                int freq = pq.top(); pq.pop();
+                tmp.push_back(--freq);
+            }
+        }
+
+        for (int& f : tmp)
+            if (f > 0) pq.push(f);
+
+        time += pq.empty() ? tmp.size() : n + 1;
+    }
+    return time;
+}
+```
+
+### Java
+
+```java
+public int leastInterval(char[] arr, int n) {
+    int[] freqMap = new int[26];
+    for (char c : arr)
+        freqMap[c - 'A']++;
+
+    PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+    for (int f : freqMap)
+        if (f > 0) pq.offer(f);
+
+    int time = 0;
+    while (!pq.isEmpty()) {
+        ArrayList<Integer> temp = new ArrayList<>();
+
+        for (int i = 1; i <= n + 1; i++) {
+            if (!pq.isEmpty()) {
+                int freq = pq.poll();
+                temp.add(--freq);
+            }
+        }
+
+        for (int f : temp)
+            if (f > 0) pq.offer(f);
+
+        time += pq.isEmpty() ? temp.size() : n + 1;
+    }
+    return time;
+}
+```
+
+---
+
+## Complexity Summary
+
+| Approach | Time | Space |
+|---|---|---|
+| Brute Force | O(N²) | O(1) |
+| Greedy + Max Heap | O(N) | O(1) |
