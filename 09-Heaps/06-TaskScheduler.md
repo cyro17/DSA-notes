@@ -1,7 +1,46 @@
-#include <bits/stdc++.h>
-using namespace std;
+
 
 Task Scheduler :
+    Brute Force approach: O(N^2)
+
+'''
+int leastInterval(vector<char>& arr, int n) {
+    
+    int total = arr.size();
+    int* freq = new int[26];
+
+    for(char c : arr)
+        freq[c - 'A']++;
+
+    int time = 0;
+    int* nextavail = new int[26];
+
+    while(total > 0){
+        // get the currently avaialble task
+        vector<int> avail;
+        for(int i = 0; i< 26; i++){
+            if(freq[i] > 0 && nextavail[i] <= time)
+                avail.push_back(i);
+        }
+
+        if(!avail.empty()){
+            int chosen = avail[0];
+            for(int index: avail){
+                if(freq[index] > freq[chosen])
+                    chosen = index;
+            }
+
+            freq[chosen]--;
+            total--;
+            nextavail[chosen] = time + n + 1;
+
+        }
+        time++;
+    }
+    return time;
+}
+'''
+
     Using heaps greedily:
 
       1. create a map and store the occurrences of each character
