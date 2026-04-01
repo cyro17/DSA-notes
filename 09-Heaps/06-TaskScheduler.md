@@ -3,7 +3,7 @@
 Task Scheduler :
     Brute Force approach: O(N^2)
 
-'''
+```
 int leastInterval(vector<char>& arr, int n) {
     
     int total = arr.size();
@@ -39,7 +39,7 @@ int leastInterval(vector<char>& arr, int n) {
     }
     return time;
 }
-'''
+```
 
     Using heaps greedily:
 
