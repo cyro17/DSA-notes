@@ -12,33 +12,34 @@ The width of one level is defined as the length between the **leftmost** and **r
 
 ---
 
-## Approach — BFS with Index Tracking
+## Core Idea — Heap-Style Index Tracking
 
-Assign each node a **heap-style index**:
+Assign each node a positional index:
 - Root → `0`
 - Left child of node at `i` → `2*i + 1`
 - Right child of node at `i` → `2*i + 2`
 
-At each level, track the **first** and **last** index dequeued.
+This captures **null gaps** between nodes without storing nulls explicitly.
 
-Width = `lastIndex - firstIndex + 1`
+Width at any level = `rightmostIndex - leftmostIndex + 1`
 
-Since BFS processes nodes left to right, the first node dequeued at each level is always the leftmost, and the last is always the rightmost — no need to track min/max separately.
-
-**Normalize** at each level by subtracting the base index to prevent overflow on deep trees.
+> ⚠️ **Always use `long`/`long long` for indices and normalize at every level** — without normalization, indices grow as `2^depth` and overflow beyond depth 30.
 
 ---
 
-## Complexity
+## Approach 1 — BFS
+
+Process nodes level by level. First node dequeued at each level = leftmost, last = rightmost.
+Normalize by subtracting the leftmost index before pushing children.
+
+### Complexity
 
 | | |
 |---|---|
-| **Time** | O(N) — each node visited once |
-| **Space** | O(W) — queue holds at most one level at a time |
+| **Time** | O(N) |
+| **Space** | O(W) — max width of the tree |
 
----
-
-## Java Solution
+### Java
 
 ```java
 class Pair {
@@ -51,7 +52,7 @@ class Pair {
 }
 
 class Solution {
-    private int bfs(TreeNode root) {
+    public int widthOfBinaryTree(TreeNode root) {
         if (root == null) return 0;
 
         Queue<Pair> q = new LinkedList<>();
@@ -60,36 +61,30 @@ class Solution {
 
         while (!q.isEmpty()) {
             int size = q.size();
-            long baseIndex = q.peek().index, firstIndex = 0, lastIndex = 0;
+            long base = q.peek().index;
+            long first = 0, last = 0;
 
             for (int i = 0; i < size; i++) {
                 Pair pair = q.poll();
                 TreeNode node = pair.node;
-                long index = pair.index - baseIndex;  // normalize
+                long index = pair.index - base;  // normalize
 
-                if (i == 0) firstIndex = index;
-                if (i == size - 1) lastIndex = index;
+                if (i == 0) first = index;
+                if (i == size - 1) last = index;
 
                 if (node.left != null)  q.offer(new Pair(node.left,  2 * index + 1));
                 if (node.right != null) q.offer(new Pair(node.right, 2 * index + 2));
             }
 
-            max = (int) Math.max(lastIndex - firstIndex + 1, max);
+            max = (int) Math.max(last - first + 1, max);
         }
 
         return max;
     }
-
-    public int widthOfBinaryTree(TreeNode root) {
-        if (root == null) return 0;
-        return bfs(root);
-    }
 }
 ```
 
----
-
-## C++ Solution
+### C++
 
 ```cpp
 class Solution {
@@ -126,9 +121,7 @@ public:
 };
 ```
 
----
-
-## Dry Run — `[1,3,2,5,3,null,9]`
+### Dry Run — `[1,3,2,5,3,null,9]`
 
 ```
         1              index = 0
@@ -138,34 +131,90 @@ public:
     5   3    9         5 → 3,  3 → 4,  9 → 6
 ```
 
-| Level | baseIndex | firstIndex | lastIndex | Width |
-|-------|-----------|------------|-----------|-------|
-| 1     | 0         | 0          | 0         | 1     |
-| 2     | 1         | 0          | 1         | 2     |
-| 3     | 3         | 0          | 3         | **4** |
+| Level | base | first | last | Width |
+|-------|------|-------|------|-------|
+| 1     | 0    | 0     | 0    | 1     |
+| 2     | 1    | 0     | 1    | 2     |
+| 3     | 3    | 0     | 3    | **4** |
 
 **Answer = 4** ✅
 
 ---
 
-## ⚠️ Overflow — Why It Happens and How Normalization Fixes It
+## Approach 2 — DFS (Optimized Space)
 
-Without normalization, indices grow as `2^depth`. At depth 31, `2*index + 2` exceeds `Integer.MAX_VALUE` and silently wraps to a negative number.
+Use **preorder DFS** (root → left → right). Since preorder always visits left before right, the first time we reach any depth it's always the leftmost node — store that index in a map.
 
-**Normalization** subtracts the leftmost index at each level, resetting indices to start from `0` every level:
+Every subsequent visit to that depth computes width = `normalizedIndex + 1`.
 
+### Complexity
+
+| | |
+|---|---|
+| **Time** | O(N) |
+| **Space** | O(H) — recursion stack (better than BFS for balanced trees) |
+
+### C++
+
+```cpp
+using ll = long long;
+
+class Solution {
+private:
+    void dfs(TreeNode* node, int depth, ll index,
+        unordered_map<int, ll>& mp, ll& max_) {
+
+        if (!node) return;
+
+        if (mp.find(depth) == mp.end())
+            mp[depth] = index;              // first visit = leftmost, save it
+
+        ll nindex = index - mp[depth];      // normalize
+        max_ = max(max_, nindex + 1);       // width = normalized index + 1
+
+        dfs(node->left,  depth + 1, 2 * nindex + 1, mp, max_);
+        dfs(node->right, depth + 1, 2 * nindex + 2, mp, max_);
+    }
+
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        unordered_map<int, ll> mp;
+        ll max_ = 0;
+        dfs(root, 0, 0LL, mp, max_);
+        return (int) max_;
+    }
+};
 ```
-Without normalization — Level 30:  leftmost = 536870912, rightmost = 1073741820
-With normalization    — Level 30:  leftmost = 0,         rightmost = 908
-```
 
-Width calculation is identical — `right - left + 1` gives the same result either way.
+### Dry Run — `[1,3,2,5,3,null,9]`
+
+| Call | Node | depth | raw index | mp[depth] | nindex | max_ |
+|------|------|-------|-----------|-----------|--------|------|
+| 1    | 1    | 0     | 0         | 0 (saved) | 0      | 1    |
+| 2    | 3    | 1     | 1         | 1 (saved) | 0      | 1    |
+| 3    | 5    | 2     | 1         | 1 (saved) | 0      | 1    |
+| 4    | 3    | 2     | 2         | 1 (skip)  | 1      | 2    |
+| 5    | 2    | 1     | 2         | 1 (skip)  | 1      | 2    |
+| 6    | 9    | 2     | 4         | 1 (skip)  | 3      | **4**|
+
+**Answer = 4** ✅
+
+---
+
+## BFS vs DFS
+
+| | BFS | DFS |
+|---|---|---|
+| Time | O(N) | O(N) |
+| Space | O(W) — max level width | O(H) — recursion stack |
+| Normalization | Subtract base at level start | Subtract `mp[depth]` before children |
+| Better for | Skewed trees | Balanced trees |
 
 ---
 
 ## Key Takeaways
 
-- Heap indexing tracks **positional gaps** (null nodes) without storing nulls in the queue
-- BFS processes left to right — `i == 0` and `i == size - 1` cleanly capture first and last index
-- Always use `long long` (C++) or `long` (Java) for indices in heap-indexed tree problems
-- Normalize at every level — subtract `base` before computing children's indices
+- Heap indexing captures null gaps without storing nulls in the queue
+- BFS: use `i == 0` and `i == size - 1` to grab leftmost and rightmost index per level
+- DFS: `putIfAbsent` / `mp.find` ensures only the leftmost index per depth is saved
+- Always use `long`/`long long` + normalize — overflow is a silent bug that only surfaces on deep trees
