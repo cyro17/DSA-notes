@@ -217,3 +217,94 @@ Where:
 | Handles all cases | ✅ | ✅ |
 
 **Recommended approach for interviews:** Approach 2 (recursive). It is concise, readable, and directly mirrors the BST invariant logic. Approach 1 is valid and demonstrates iterative thinking, but the double-traversal is a minor inefficiency worth noting.
+
+---
+
+## Full Code
+
+### Approach 1 – Iterative Two-Pass (Your Solution)
+
+```java
+class Solution {
+    private TreeNode findTarget(TreeNode root, int key) {
+        if (root == null) return null;
+        if (root.val == key) return root;
+        if (root.val > key) return this.findTarget(root.left, key);
+        else return this.findTarget(root.right, key);
+    }
+
+    private TreeNode findRight(TreeNode node) {
+        if (node == null) return null;
+        while (node.right != null) node = node.right;
+        return node;
+    }
+
+    private TreeNode helper(TreeNode node) {
+        if (node.left == null) return node.right;
+        else if (node.right == null) return node.left;
+
+        TreeNode lastRight = this.findRight(node.left);
+        lastRight.right = node.right;
+        return node.left;
+    }
+
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) return null;
+
+        TreeNode target = this.findTarget(root, key);
+        if (target == null) return root;
+
+        if (root.val == key) return this.helper(root);
+
+        TreeNode tmp = root;
+        while (tmp != null) {
+            if (tmp.val > key) {
+                if (tmp.left != null && tmp.left.val == key) {
+                    tmp.left = this.helper(tmp.left);
+                    break;
+                } else {
+                    tmp = tmp.left;
+                }
+            } else {
+                if (tmp.right != null && tmp.right.val == key) {
+                    tmp.right = this.helper(tmp.right);
+                    break;
+                } else {
+                    tmp = tmp.right;
+                }
+            }
+        }
+        return root;
+    }
+}
+```
+
+---
+
+### Approach 2 – Recursive Single-Pass (Recommended)
+
+```java
+class Solution {
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) return null;
+
+        if (key < root.val) {
+            root.left = deleteNode(root.left, key);
+        } else if (key > root.val) {
+            root.right = deleteNode(root.right, key);
+        } else {
+            // Node to delete found
+            if (root.left == null) return root.right;
+            if (root.right == null) return root.left;
+
+            // Two children: attach right subtree to rightmost of left subtree
+            TreeNode lastRight = root.left;
+            while (lastRight.right != null) lastRight = lastRight.right;
+            lastRight.right = root.right;
+            return root.left;
+        }
+
+        return root;
+    }
+}
+```
