@@ -58,7 +58,7 @@ public:
 };
 ```
 
-### Why It Gives TLE
+### Why Its Expensive
 
 Every `next()` call recomputes `pge()` on the **entire list from scratch**:
 
@@ -77,7 +77,7 @@ Total work = 1 + 2 + 3 + ... + n = O(n²)
 | | Value |
 |-|-------|
 | **Per call** | O(n) |
-| **Total (n calls)** | O(n²) → TLE |
+| **Total (n calls)** | O(n²) |
 | **Space** | O(n) list + O(n) stack |
 
 ---
