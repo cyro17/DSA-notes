@@ -17,6 +17,40 @@ SC : O(N) + O(N) + O(N) ~ O(3N), O(N) for the indegree array, O(N) for the queue
 
 ```
 class Solution {
+    bool dfs(int node, vector<vector<int>> &graph,
+  vector<int> &state){
+
+  if(state[node] == 1) return 0;
+  if(state[node] == 2) return 1;
+
+  state[node] =1;
+  for(int neighbour: graph[node]){
+    if(!dfs(neighbour, graph, state))
+      return 0;
+  }
+
+  state[node] = 2;
+  return 1;
+}
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+         int n = graph.size();
+  vector<int> state(n, 0);
+
+  vector<int> res;
+  for (int i = 0; i < n; ++i)
+  {
+    if(dfs(i, graph, state))
+      res.push_back(i);
+  }
+
+  return res;
+    }
+};
+
+
+
+class Solution {
 public:
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
         int n = graph.size();
