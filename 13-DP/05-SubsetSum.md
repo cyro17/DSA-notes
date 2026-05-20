@@ -42,34 +42,26 @@ Space Complexity: O(N x K) + O(N)
 Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N x K)).
 
 ```
-class Solution
-{
-private:
-  bool util(int idx, int target, vector<int> &arr, vector<vector<int>> &dp)
-  {
-    if (target == 0)
-      return dp[idx][target] = 1;
-    if (idx == 0)
-      return dp[idx][target] = (arr[idx] == target);
-
-    if (dp[idx][target] != -1)
-      return dp[idx][target];
-
-    bool not_pick = util(idx - 1, target, arr, dp);
-    bool pick = false;
-    if (target >= arr[idx])
-      pick = util(idx - 1, target - arr[idx], arr, dp);
-
-    return dp[idx][target] = pick || not_pick;
-  }
-
-public:
-  bool isSubsetSum(vector<int> arr, int sum)
-  {
-    int n = arr.size(), k = sum;
-    vector<vector<int>> dp(n, vector<int>(k + 1, -1));
-    return util(n - 1, sum, arr, dp);
-  }
+class Solution {
+    bool f(int index, int sum,  vector<int> &arr, int k, 
+            vector<vector<int>> &dp){
+                
+        int n = arr.size();
+        if(sum == k) return 1;
+        if(index == n || sum > k) return 0;
+        
+        if(dp[index][sum] != -1) return dp[index][sum]; 
+        
+        return dp[index][k] = f(index + 1, sum + arr[index], arr, k, dp) || 
+                f(index + 1, sum, arr, k, dp);
+    }
+  public:
+    bool isSubsetSum(vector<int>& arr, int k) {
+        // code here
+        int n = arr.size();
+        vector<vector<int>> dp(n, vector<int>(k + 1, -1));
+        return f(0, 0, arr, k, dp);
+    }
 };
 
 ```
