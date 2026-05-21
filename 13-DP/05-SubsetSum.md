@@ -1,102 +1,128 @@
-Given an array of non - negative integers, and a value sum,
-determine if there is a subset of the given set with sum equal to given sum.
+# Subset Sum Problem
 
-Using recursion
-TC = O(2^N)
+Given an array of non-negative integers and a target sum `k`, determine whether any subset of the array adds up to `k`.
 
-```
+---
 
-class Solution
-{
-private:
-  bool util(int idx, int target, vector<int> &arr)
-  {
-    if (target == 0)
-      return 1;
-    if (idx == 0)
-      return (arr[idx] == target);
+## Approach 1 — Brute Force (Recursive)
 
-    bool not_pick = util(idx - 1, target, arr);
-    bool pick = false;
-    if (target >= arr[idx])
-      pick = util(idx - 1, target - arr[idx], arr);
+At each index, either **include** the current element or **skip** it. Explore all 2^n subsets.
 
-    return pick || not_pick;
-  }
+**Time:** O(2^n) &nbsp;|&nbsp; **Space:** O(n) recursion stack
+
+```cpp
+class Solution {
+    bool f(int index, int sum, vector<int>& arr, int k) {
+        if (sum == k) return true;
+        if (index == arr.size()) return false;
+
+        // include arr[index] OR exclude it
+        return f(index + 1, sum + arr[index], arr, k)
+            || f(index + 1, sum, arr, k);
+    }
 
 public:
-  bool isSubsetSum(vector<int> arr, int sum)
-  {
-    int n = arr.size(), k = sum;
-    return util(n - 1, sum, arr);
-  }
-};
-
-```
-
-Memoization of overlapping subproblems
-Time Complexity: O(N x K)
-
-Space Complexity: O(N x K) + O(N)
-
-Reason: We are using a recursion stack space(O(N)) and a 2D array ( O(N x K)).
-
-```
-class Solution {
-    bool f(int index, int sum,  vector<int> &arr, int k, 
-            vector<vector<int>> &dp){
-                
-        int n = arr.size();
-        if(sum == k) return 1;
-        if(index == n || sum > k) return 0;
-        
-        if(dp[index][sum] != -1) return dp[index][sum]; 
-        
-        return dp[index][k] = f(index + 1, sum + arr[index], arr, k, dp) || 
-                f(index + 1, sum, arr, k, dp);
-    }
-  public:
     bool isSubsetSum(vector<int>& arr, int k) {
-        // code here
-        int n = arr.size();
-        vector<vector<int>> dp(n, vector<int>(k + 1, -1));
-        return f(0, 0, arr, k, dp);
+        return f(0, 0, arr, k);
     }
 };
-
 ```
 
-Time Complexity: O(N x K)
+### Why the original code was wrong
 
-Reason: There are N x K states therefore at max N x K new problems will be solved.
-
-Space Complexity: O(N x K)
-
-Reason: no extra rec stack space
-
-```
-class Solution
-{
-  bool solve(vector<int> &arr, int target)
-  {
-    int k = target;
-    vector<vector<bool>> dp(n, vector<bool>(k + 1, 0));
-    for (int i = 0; i < n; i++)
-      dp[i][0] = 1;
-
-    dp[0][arr[0]] = 1;
-    for (int idx = 1; idx < n; idx++)
-    {
-      for (int j = 1; j <= target; j++)
-      {
-        bool dont_pick = dp[idx - 1][j];
-        bool pick = 0;
-        if (arr[idx] <= j)
-          pick = dp[idx - 1][j - arr[idx]];
-        dp[idx][j] = pick or dont_pick;
-      }
+```cpp
+// ❌ Original (buggy)
+bool f(int index, int sum, vector<int>& arr, int k) {
+    if (sum == k) return 1;
+    if (index == n - 1) return sum == k;
+    for (int i = index + 1; i < n; ++i) {
+        if (f(i, sum + arr[index], arr, k)) return 1;
     }
-    return dp[n - 1][k];
-  }
+    // ⚠ missing return — undefined behavior
+}
+
+bool isSubsetSum(vector<int>& arr, int k) {
+    return f(0, arr[0], arr, k);  // ⚠ forces arr[0] into every subset
+}
+```
+
+| Bug | Impact |
+|-----|--------|
+| No `return false` at end of `f()` | Undefined behavior when no subset found |
+| Starts with `sum = arr[0]` | Element 0 is always included — can never test subsets without it |
+| Loop only **includes** elements | Never explores "skip this element" — misses valid subsets |
+| Base case `index == n-1` doesn't add `arr[n-1]` | Last element is silently excluded |
+
+---
+
+## Approach 2 — Recursion + Memoization (Top-Down DP)
+
+Cache `(index, sum)` states to avoid recomputation.
+
+**Time:** O(n × k) &nbsp;|&nbsp; **Space:** O(n × k)
+
+```cpp
+class Solution {
+    unordered_map<long long, bool> memo;
+
+    bool f(int index, int sum, vector<int>& arr, int k) {
+        if (sum == k) return true;
+        if (index == arr.size() || sum > k) return false;
+
+        long long key = (long long)index * (k + 1) + sum;
+        if (memo.count(key)) return memo[key];
+
+        memo[key] = f(index + 1, sum + arr[index], arr, k)
+                  || f(index + 1, sum, arr, k);
+        return memo[key];
+    }
+
+public:
+    bool isSubsetSum(vector<int>& arr, int k) {
+        memo.clear();
+        return f(0, 0, arr, k);
+    }
 };
 ```
+
+> **Pruning:** `sum > k` works because all elements are non-negative. If negatives are possible, remove this check.
+
+---
+
+## Approach 3 — Bottom-Up DP (Tabulation)
+
+`dp[j]` = can we form sum `j` using elements seen so far?
+
+**Time:** O(n × k) &nbsp;|&nbsp; **Space:** O(k)
+
+```cpp
+class Solution {
+public:
+    bool isSubsetSum(vector<int>& arr, int k) {
+        vector<bool> dp(k + 1, false);
+        dp[0] = true;  // empty subset → sum 0
+
+        for (int num : arr) {
+            // iterate right-to-left so each element is used at most once
+            for (int j = k; j >= num; --j) {
+                dp[j] = dp[j] || dp[j - num];
+            }
+        }
+        return dp[k];
+    }
+};
+```
+
+### Why right-to-left?
+
+If we go left-to-right (`j = num` to `k`), `dp[j - num]` may already reflect the current element being used, effectively allowing unlimited reuse (that solves a different problem — unbounded knapsack). Right-to-left ensures each element contributes at most once.
+
+---
+
+## Summary
+
+| Approach | Time | Space | Notes |
+|----------|------|-------|-------|
+| Brute force | O(2^n) | O(n) | TLE for n > ~20 |
+| Memoized | O(n·k) | O(n·k) | Good when k is moderate |
+| Tabulation | O(n·k) | O(k) | Best for interviews — optimal space |
