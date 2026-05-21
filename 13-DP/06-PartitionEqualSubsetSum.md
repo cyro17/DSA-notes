@@ -1,124 +1,135 @@
-PS -> Partition array into two subset with equal sum
-1 5 11 5 => (5 5 1) (11)
+# Equal Partition Problem
 
-Two subset with equal sum , that means each subset sum is equal to the half of the total array sum
-similar to subset sum problem we sovled above , just the target changes to half of the total sum
+Given an array of positive integers, determine whether it can be partitioned into two subsets with equal sum.
 
-Recursive approach :
+**Key Insight:** If `totalSum` is even, the problem reduces to **Subset Sum** — find any subset summing to `totalSum / 2`. The remaining elements automatically sum to the other half.
 
-```
-class Solution
-{
-private:
-  bool util(int idx, int target, vector<int> &arr){
-    if (target == 0)
-      return 1;
-    if (idx == 0)
-      return (arr[idx] == target);
+---
 
-    bool not_pick = util(idx - 1, target, arr);
-    bool pick = false;
-    if (target >= arr[idx])
-      pick = util(idx - 1, target - arr[idx], arr);
+## Edge Case — Odd Sum
 
-    return pick || not_pick;
-  }
+If the total sum is odd, no equal partition is possible. Return `false` immediately.
 
-public:
-  bool isSubsetSum(vector<int> arr, int sum){
-    int n = arr.size(), total = 0;
-    for (int i : arr)
-      total += i;
-
-    if (total & 1)
-      return 0;
-
-    vector<vector<int>> dp(n, vector<int>(total + 1, -1));
-    return util(n - 1, total / 2, arr);
-  }
-};
-
+```cpp
+if (sum % 2 != 0) return false;
 ```
 
-Memoization Approach
+This is easy to miss — without it, integer division (`11/2 = 5`) lets the recursion find a valid subset of sum 5, incorrectly returning `true`.
 
-```
+---
 
-class Solution{
-private:
-  bool util(int index, int target, vector<int> &arr, vector<vector<int>> &dp){
-    if (target == 0)
-      return 1;
-    if (index == 0)
-      return arr[0] == target;
-    if (dp[index][target] != -1)
-      return dp[index][target];
+## Approach 1 — Brute Force (Recursive)
 
-    bool not_pick = util(index - 1, target, arr, dp);
-    bool pick = 0;
-    if (arr[index] <= target)
-      pick = util(index - 1, target - arr[index], arr, dp);
+Pick or skip each element, accumulating toward `target = sum/2`.
 
-    return dp[index][target] = pick or not_pick;
-}
-public:
-  bool canPartition(vector<int> &arr){
-    int total = 0, n = arr.size();
-    for (int i : arr)
-      total += i;
-    if (total & 1)
-      return 0;
+**Time:** O(2^n) &nbsp;|&nbsp; **Space:** O(n) recursion stack
 
-    vector<vector<int>> dp(n, vector<int>(total + 1, -1));
-    return util(n - 1, total / 2, arr, dp);
-  }
-};
+```cpp
+class Solution {
+    bool f(int index, int k, vector<int>& arr, int target) {
+        if (k == target) return true;
+        if (index == arr.size() || k > target) return false;
 
-```
+        bool pick = false;
+        if (arr[index] + k <= target)
+            pick = f(index + 1, arr[index] + k, arr, target);
+        bool skip = f(index + 1, k, arr, target);
 
-Tabulation Approach
-
-```
-class Solution
-{
-private:
-bool findSum(int index, int target, vector<int> &arr)
-{
-int n = arr.size();
-
-    for (int i = 0; i < n; i++)
-      dp[i][0] = 1;
-    dp[0][arr[0]] = 1;
-
-    for (int i = 1; i < n; i++)
-    {
-      for (int j = 1; j <= target; j++)
-      {
-        bool not_pick = dp[i - 1][target];
-        bool pick = 0;
-        if (arr[index] <= j)
-          pick = dp[i - 1][j - arr[i]];
-
-        dp[index - 1][j] = pick or not_pick;
-      }
+        return pick || skip;
     }
-    return dp[n - 1][target];
-
-}
 
 public:
-  bool canPartition(vector<int> &nums){
-    int sum = 0;
-    for (int i : nums)
-      sum += i;
-    if (sum & 1)
-      return 0;
-
-    int target = sum >> 1;
-    vector<vector<int>> dp(n, vector<int>(target, 0));
-    int n = nums.size();
-    return findSum(n - 1, target, nums);
-  }
+    bool canPartition(vector<int>& nums) {
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        if (sum & 1) return false;
+        return f(0, 0, nums, sum / 2);
+    }
 };
+```
 
+---
+
+## Approach 2 — Recursion + Memoization (Top-Down DP)
+
+Cache `(index, k)` states. Since `k` ranges from `0` to `sum/2`, the table is `n × (sum/2 + 1)`.
+
+**Time:** O(n × sum/2) &nbsp;|&nbsp; **Space:** O(n × sum/2)
+
+```cpp
+class Solution {
+    bool f(int index, int k, vector<int>& arr, int target,
+           vector<vector<int>>& dp) {
+        if (k == target) return true;
+        if (index == arr.size() || k > target) return false;
+        if (dp[index][k] != -1) return dp[index][k];
+
+        bool pick = false;
+        if (arr[index] + k <= target)
+            pick = f(index + 1, arr[index] + k, arr, target, dp);
+        bool skip = f(index + 1, k, arr, target, dp);
+
+        return dp[index][k] = pick || skip;
+    }
+
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        int n = nums.size();
+        if (sum & 1) return false;
+        vector<vector<int>> dp(n + 1, vector<int>(sum / 2 + 1, -1));
+        return f(0, 0, nums, sum / 2, dp);
+    }
+};
+```
+
+> **Why `-1` sentinel works:** cached values are `0` (false) or `1` (true), so `-1` cleanly means "unvisited".
+
+---
+
+## Approach 3 — Bottom-Up DP (Tabulation)
+
+`dp[j]` = can we form sum `j` from elements seen so far?
+
+**Time:** O(n × sum/2) &nbsp;|&nbsp; **Space:** O(sum/2)
+
+```cpp
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        if (sum & 1) return false;
+        int target = sum / 2;
+
+        vector<bool> dp(target + 1, false);
+        dp[0] = true;  // empty subset → sum 0
+
+        for (int num : nums) {
+            // right-to-left: each element used at most once
+            for (int j = target; j >= num; --j) {
+                dp[j] = dp[j] || dp[j - num];
+            }
+        }
+        return dp[target];
+    }
+};
+```
+
+### Why right-to-left?
+
+Left-to-right iteration lets `dp[j - num]` reflect the current element already being included, allowing unlimited reuse (unbounded knapsack). Right-to-left ensures each element contributes at most once (0/1 knapsack).
+
+---
+
+## Summary
+
+| Approach | Time | Space | Notes |
+|----------|------|-------|-------|
+| Brute force | O(2^n) | O(n) | TLE for n > ~20 |
+| Memoized | O(n·sum/2) | O(n·sum/2) | Good when sum is moderate |
+| Tabulation | O(n·sum/2) | O(sum/2) | Optimal — best for interviews |
+
+### Reduction Chain
+
+```
+Equal Partition → Subset Sum(target = totalSum/2) → 0/1 Knapsack
 ```
